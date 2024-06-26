@@ -1,4 +1,4 @@
-# CDK HANDBOOK BACKEND
+# CDK HANDBOOK
 A handbook to aws serverless stack. <br />
 
 
@@ -9,6 +9,8 @@ A handbook to aws serverless stack. <br />
 - public-read Bucket with PutItem signedUrl to upload images from frontend
 - Cognito Authorizer
 - AWS Policies and Tags
+- EventBus (lambda to lambda)
+- Next.js frontend
 
 should add more features in the near future <br />
 
