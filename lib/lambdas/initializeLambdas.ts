@@ -119,18 +119,18 @@ const initializeItemLambdas = (stack: Stack, props: InitItemLambdaProps) => {
     appLambdas.itemCreateLambda = new AppLambda(stack, {
         lambdaName: 'itemCreate',
         folder: 'items',
-        table: tables.ItemsTable,
+        table: tables.itemsTable,
         tableWriteRights: true,
     }).lambda;
     appLambdas.itemGetLambda = new AppLambda(stack, {
         lambdaName: 'itemGet',
         folder: 'items',
-        table: tables.ItemsTable,
+        table: tables.itemsTable,
     }).lambda;
     appLambdas.itemUpdateLambda = new AppLambda(stack, {
         lambdaName: 'itemUpdate',
         folder: 'items',
-        table: tables.ItemsTable,
+        table: tables.itemsTable,
         tableWriteRights: true,
         policyStatements: {bucketAccessStatement: policyStatements.bucketAccessStatement},
         eventBusData: {
@@ -143,7 +143,7 @@ const initializeItemLambdas = (stack: Stack, props: InitItemLambdaProps) => {
     appLambdas.itemDeleteLambda = new AppLambda(stack, {
         lambdaName: 'itemDelete',
         folder: 'items',
-        table: tables.ItemsTable,
+        table: tables.itemsTable,
         tableWriteRights: true,
         eventBusData: {
             source: eventBusesData.deleteImagesBus.source,

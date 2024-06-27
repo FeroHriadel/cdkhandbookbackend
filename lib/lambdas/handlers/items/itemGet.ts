@@ -5,13 +5,17 @@ import { getItemById, getAllItems, getItemsOrderedByDate, getItemsByCategory, ge
 
 
 export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
+    console.log('lambda triggered')
+
     try {
         let result = null;
         //get all items
         if (!event.queryStringParameters) {
             result = await getAllItems();
+            console.log('getAllItems', result);
         }
         else {
+            console.log('found query string params')
             const query = event.queryStringParameters;
             //get by id
             if (query.item) {
