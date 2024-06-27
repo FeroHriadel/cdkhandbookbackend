@@ -78,7 +78,7 @@ export const uploadImage = async (fileName: string, imageData: string, idToken: 
     return {error: '', imageUrl: objectUrl};
 }
 
-export const uploadImages = async (imagesData: {base64: string, fileName: string}[], idToken: string) => {
+export const uploadImages = async (imagesData: {base64: string, fileName: string}[], idToken: string | null) => {
     const presignedUrls: {url: string}[] = await Promise.all(imagesData.map(async img => { return await getUploadUrl(img.fileName, idToken) }));
     const objectUrls = presignedUrls.map(item => getObjectUrlFromUrl(item.url));
     const blobs = imagesData.map(item => base64IntoBlob(item.base64));
