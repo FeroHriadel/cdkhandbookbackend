@@ -42,7 +42,7 @@ export class AppLambda {
 
 
   constructor(stack: Stack, props: AppLambdaProps) {
-    const { lambdaName, folder, table, tableWriteRights, bucket, eventBusData, policyStatements } = props;
+    const { lambdaName, folder, table, tableWriteRights, bucket, eventBusData, policyStatements, tags } = props;
     this.stack = stack;
     this.lambdaName = lambdaName;
     this.folder = folder;
@@ -51,6 +51,14 @@ export class AppLambda {
     if (bucket) this.bucket = bucket;
     if (policyStatements) this.policyStatements = policyStatements;
     if (eventBusData) this.eventBusData = eventBusData;
+    if (tags) this.tags = tags;
+
+    if (lambdaName.toLocaleLowerCase().includes('category')) {
+      console.log('*****************APP LAMBDA*****************');
+      console.log(tags);
+      console.log('******************************************************');
+    }
+
     this.initialize();
   }
 
@@ -93,7 +101,7 @@ export class AppLambda {
 
   private addTags() {
     Object.keys(this.tags).forEach((key) => {
-        Tags.of(this.lambda).add(key, this.tags[key]);
+        Tags.of(this.lambda).add(this.tags[key], this.tags[key]);
     });
   }
 }

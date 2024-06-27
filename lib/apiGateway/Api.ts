@@ -28,6 +28,7 @@ export class Api {
         this.addTagEndpoints();
         this.addCategoryEndpoints();
         this.addItemEndpoints();
+        this.addGetUploadUrlEndpoint();
     }
 
     private initApi() {
@@ -53,9 +54,6 @@ export class Api {
     private createLambdaIntegrations() {
         function createLambdaIntegration(lambda: NodejsFunction) { return new LambdaIntegration(lambda) };
         Object.keys(this.lambdas).forEach((key) => {  this.lambdaIntegrations[`${key}`] = createLambdaIntegration(this.lambdas[`${key}`]); });
-        console.log('******************************************************');
-        console.log('checking lambdaIntegrations: ', this.lambdaIntegrations);
-        console.log('******************************************************');
     }
 
     private createResource(pathName: string) {
@@ -86,6 +84,7 @@ export class Api {
         this.addFunctionToResource({resource: pathParamsResource, lambdaIntegration: this.lambdaIntegrations['categoryDeleteLambda'], method: 'DELETE'});
     }
 
+    
     private addItemEndpoints() {
         const resource = this.createResource('items');
         this.addFunctionToResource({resource, lambdaIntegration: this.lambdaIntegrations['itemCreateLambda'], method: 'POST'});
@@ -93,6 +92,11 @@ export class Api {
         const pathParamsResource = resource.addResource('{id}');
         this.addFunctionToResource({resource: pathParamsResource, lambdaIntegration: this.lambdaIntegrations['itemUpdateLambda'], method: 'PUT'});
         this.addFunctionToResource({resource: pathParamsResource, lambdaIntegration: this.lambdaIntegrations['itemDeleteLambda'], method: 'DELETE'});
+    }
+    
+    private addGetUploadUrlEndpoint() {
+        const resource = this.createResource('getuploadurl');
+        this.addFunctionToResource({resource, lambdaIntegration: this.lambdaIntegrations['getUploadUrlLambda'], method: 'POST'});
     }
     
 }

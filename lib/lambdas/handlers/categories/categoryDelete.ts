@@ -12,17 +12,26 @@ const client = new S3Client({region: process.env.REGION});
 
 export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
+        console.log('lambda triggered');
+        console.log('bucket name check:', process.env.BUCKET_NAME!)
         const id = event.pathParameters?.id;
+        console.log(id);
 
+        console.log('is gonna get category from db...')
         const categoryExists = await getCategoryById(id!);
+        console.log('got:', categoryExists);
         if (!categoryExists?.id) throw new ResponseError(404, 'Category with such id not found');
         
+        console.log('is gonna delete category from DB');
         const deleteCategoryResponse = await deleteCategory(id!);
+        console.log('deleteRes', deleteCategoryResponse);
         if (!deleteCategoryResponse) throw new ResponseError(500, 'Deletion failed');
 
         if (categoryExists.image) {
+            console.log('deleting image')
             const Key = categoryExists.image.split('.com/')[1];
             const Bucket = process.env.BUCKET_NAME!;
+            console.log('s3 params', Key, Bucket);
             const command = new DeleteObjectCommand({Key, Bucket});
             const deleteImgRes = await client.send(command);
             console.log(deleteImgRes);
