@@ -52,13 +52,6 @@ export class AppLambda {
     if (policyStatements) this.policyStatements = policyStatements;
     if (eventBusData) this.eventBusData = eventBusData;
     if (tags) this.tags = tags;
-
-    if (lambdaName.toLocaleLowerCase().includes('category')) {
-      console.log('*****************APP LAMBDA*****************');
-      console.log(tags);
-      console.log('******************************************************');
-    }
-
     this.initialize();
   }
 
@@ -68,6 +61,7 @@ export class AppLambda {
     if (this.table) this.addTableRights();
     if (this.policyStatements) this.addRoles();
     if (this.tags) this.addTags();
+    if (this.eventBusData) this.addInvokeEventBusPermission();
   }
 
   private createLambda = () => {
@@ -102,6 +96,17 @@ export class AppLambda {
   private addTags() {
     Object.keys(this.tags).forEach((key) => {
         Tags.of(this.lambda).add(this.tags[key], this.tags[key]);
+    });
+  }
+
+  private addInvokeEventBusPermission() {
+    this.lambda.addPermission(`${this.lambdaName}AllowEventBusInvoke`, {
+      principal: new ServicePrincipal('events.amazonaws.com'),
+      sourceArn: this.stack.formatArn({
+        service: 'events',
+        resource: 'rule',
+        resourceName: `${this.eventBusData.ruleName}`
+      })
     });
   }
 }

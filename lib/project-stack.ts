@@ -70,12 +70,6 @@ export class AwsHandbookStack extends cdk.Stack {
 
   private initAppLambdas() {
     const appTags = {bucketAccessTag: this.bucketAccessTag};
-
-    console.log('***********************STACK FILE*********************');
-    console.log(this.bucketAccessTag);
-    console.log(appTags)
-    console.log('******************************************************');
-
     const appBusesData = this.getBusesData();
     this.lambdas = initializeLambdas(this, {
       tables: this.tables,
