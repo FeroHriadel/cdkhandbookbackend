@@ -65,8 +65,13 @@ export class ImagesBucket {
             effect: Effect.ALLOW,
             actions: ['s3:*'],
             resources: [this.bucket.bucketArn + '/*'],
-            principals: [new AnyPrincipal()], //anyone can read/write - but only with `s3access` tag (see next line)
-            conditions: {"StringLike": {[`aws:PrincipalTag/${this.bucketAccessTag}`]: [this.bucketAccessTag]}} //so lambdas with `s3access` tag can work with bucket but no-one else
+            principals: [new AnyPrincipal()], //anyone can read/write - but...
+            conditions: {
+                "StringLike": {
+                    [`aws:PrincipalTag/${this.bucketAccessTag}`]: [this.bucketAccessTag], //...must have bucketAccessTag
+                    "aws:PrincipalArn": [`arn:aws:iam::${accountId}:role*`] //...and must be from my account
+                },
+            }
         });
         this.bucket.addToResourcePolicy(readWriteStatement);
     }
