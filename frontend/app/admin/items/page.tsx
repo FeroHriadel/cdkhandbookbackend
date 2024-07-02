@@ -51,6 +51,7 @@ const AdminItemsPage = () => {
 
   const goToAddItemPage = () => router.push('/admin/items/add');
 
+
   useEffect(() => {
     getItems();
   }, [])
@@ -80,16 +81,16 @@ const AdminItemsPage = () => {
             items.map(item => {
               const image = item.images && item.images.length ? item.images[0] : null;
               return (
-              <div className='flex justify-between' key={item.id}>
+              <div className='flex justify-between mb-2' key={item.id}>
                 <span className='flex items-center gap-2'>
                   <div
-                    className='w-[30px] h-[30px] rounded border-solid border-gray-500 border-2'
+                    className={`w-[50px] h-[50px] rounded-full ${image ? '' : 'border-solid border-2'}`}
                     style={image ? {background: `url(${image}) no-repeat center center/cover`} : {}}
                   />
                   <p key={item.id} className='border-b-1'>{item.name}</p>
                 </span>
                 <span className='flex'>
-                  <Button size={'icon'} variant={'ghost'}> <Pencil size={18} /> </Button>
+                  <Button size={'icon'} variant={'ghost'} onClick={() => router.push(`/admin/items/edit?id=${item.id}`)}> <Pencil size={18} /> </Button>
                   <Button size={'icon'} variant={'ghost'} onClick={() => deleteItem(item.id!)}> <Trash size={18} /> </Button>
                 </span>
               </div>

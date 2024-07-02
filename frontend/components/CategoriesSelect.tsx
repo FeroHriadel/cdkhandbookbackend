@@ -7,16 +7,17 @@ import { useAppSelector } from "@/redux/store";
 type Props = {
   onValueChange: (value: string) => void;
   className?: string;
+  defaultValue?: string;
 };
 
-const CategoriesSelect = ({ onValueChange, className }: Props) => {
+const CategoriesSelect = ({ onValueChange, className, defaultValue = ""}: Props) => {
   const categories = useAppSelector((state) => state.categories);
 
   if (categories.length === 0) return <></>;
 
   return (
     <div className={className || ''}>
-      <Select onValueChange={onValueChange}>
+      <Select onValueChange={onValueChange} defaultValue={defaultValue}>
         <SelectTrigger className="w-[100%]">
           <SelectValue placeholder="Select a category" />
         </SelectTrigger>

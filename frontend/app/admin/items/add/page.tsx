@@ -76,7 +76,8 @@ const AddItemPage = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); if (!name) return toast({ description: "Name is required" }); setDisabled(true);
+    e.preventDefault(); if (!name) return toast({ description: "Name is required" }); 
+    setDisabled(true); toast({description: 'Saving item...'})
     const uploadRes = await uploadImages(selectedImages, null); if (uploadRes.error) return handleSubmitError();
     const saveToDBRes = await saveToDB(uploadRes.objectUrls!); if (saveToDBRes.error) return handleSubmitError();
     handleSubmitSuccess();
@@ -102,7 +103,7 @@ const AddItemPage = () => {
             <Textarea name="description" value={description} onChange={handleChange} className="mb-2" disabled={disabled} />
 
             <CategoriesSelect onValueChange={handleCategoryChange} className="mb-2"/>
-            <TagsSelect onCheckedChange={handleTagsChange} /> <br />
+            <TagsSelect onCheckedChange={handleTagsChange} selectedTags={tags} /> <br />
 
             {selectedImages.length > 0 && (
               <div className="w-100 flex justify-center flex-wrap gap-2">
@@ -118,7 +119,7 @@ const AddItemPage = () => {
                       className="w-[20px] h-[20px] rounded-full bg-black absolute top-0 right-[-5px] cursor-pointer flex justify-center items-center"
                       onClick={() => clearPreview(img)}
                     >
-                      <p>
+                      <p className="text-white">
                         <X size={15} />
                       </p>
                     </div>

@@ -65,12 +65,6 @@ const initializeTagLambdas = (stack: Stack, props: InitTagLambdasProps) => {
 const initializeCategoryLambdas = (stack: Stack, props: InitCategoriesLambdasProps) => {
     //category lambdas need access to CategoriesTable and ImagesBucket (which involves bucketAccessPolicyStatement and bucketAccessTag)
     const { tables, buckets, policyStatements, tags } = props;
-
-    console.log('******************CATEGORIES INIT**************************');
-    console.log(tags);
-    console.log('******************************************************');
-
-
     appLambdas.categoryCreateLambda = new AppLambda(stack, {
         lambdaName: 'categoryCreate', 
         folder: 'categories', 

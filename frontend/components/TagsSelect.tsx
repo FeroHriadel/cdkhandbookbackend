@@ -9,12 +9,15 @@ import { Checkbox } from "@/components/ui/checkbox"
 type Props = {
   onCheckedChange: (value: string) => void;
   className?: string;
+  selectedTags?: string[];
 };
 
 
 
-const TagsSelect = ({ onCheckedChange, className }: Props) => {
+const TagsSelect = ({ onCheckedChange, className, selectedTags = [] }: Props) => {
   const tags = useAppSelector((state) => state.tags);
+
+  const isTagSelected = (tagId: string) => { return selectedTags.includes(tagId); };  
 
   if (tags.length === 0) return <></>;
 
@@ -24,7 +27,7 @@ const TagsSelect = ({ onCheckedChange, className }: Props) => {
       <div className="flex items-center justify-center flex-wrap gap-5">
         {tags.map((tag) => (
             <div key={tag.id}>
-            <Checkbox key={tag.id} onCheckedChange={(isChecked: boolean) => onCheckedChange(tag.id)} />
+            <Checkbox key={tag.id} checked={isTagSelected(tag.id)} onCheckedChange={(isChecked: boolean) => onCheckedChange(tag.id)} />
             {' '}
             <label htmlFor={tag.id}>{tag.name}</label>
             </div>
