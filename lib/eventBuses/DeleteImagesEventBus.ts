@@ -9,7 +9,7 @@ import { LambdaFunction } from "aws-cdk-lib/aws-events-targets";
 
 interface DeleteImagesEventBusProps {
     eventBusData: EventBusData;
-    publisherFunction: NodejsFunction;
+    publisherFunctions: NodejsFunction[];
     targetFunction: NodejsFunction;
 }
 
@@ -24,7 +24,7 @@ export class DeleteImagesEventBus {
     private detailType: string[];
     private busName: string;
     private ruleName: string;
-    private publisherFunction: NodejsFunction;
+    private publisherFunctions: NodejsFunction[];
     private targetFunction: NodejsFunction;
 
 
@@ -34,25 +34,25 @@ export class DeleteImagesEventBus {
         this.detailType = props.eventBusData.detailType;
         this.busName = props.eventBusData.busName;
         this.ruleName = props.eventBusData.ruleName;
-        this.publisherFunction = props.publisherFunction;
+        this.publisherFunctions = props.publisherFunctions;
         this.targetFunction = props.targetFunction;
         this.initialize();
     }
 
 
-    initialize() {
+    private initialize() {
         this.createBus();
         this.createBusRule();
         this.addInvokePermission();
         this.addBusRuleTarget();
-        this.grantPutEventsToPublisher();
+        this.grantPutEventsToPublishers();
     }
 
-    createBus() {
+    private createBus() {
         this.bus = new EventBus(this.stack, this.busName, {eventBusName: this.busName});
     }
 
-    createBusRule() {
+    private createBusRule() {
         this.rule = new Rule(this.stack, this.ruleName, {
             eventBus: this.bus,
             enabled: true,
@@ -65,7 +65,7 @@ export class DeleteImagesEventBus {
         });
     }
 
-    addInvokePermission() {
+    private addInvokePermission() {
         this.targetFunction.addPermission('AllowEventBridgeInvoke', {
           principal: new ServicePrincipal('events.amazonaws.com'),
           sourceArn: this.stack.formatArn({
@@ -76,11 +76,15 @@ export class DeleteImagesEventBus {
         });
     }
 
-    addBusRuleTarget() {
+    private addBusRuleTarget() {
         this.rule.addTarget(new LambdaFunction(this.targetFunction));
     }
 
-    grantPutEventsToPublisher() {
-        this.bus.grantPutEventsTo(this.publisherFunction);
+    private grantPutEventsToPublisher(publisherFn: NodejsFunction) {
+        this.bus.grantPutEventsTo(publisherFn);
+    }
+
+    private grantPutEventsToPublishers() {
+        this.publisherFunctions.forEach(publisherFn => this.grantPutEventsToPublisher(publisherFn));
     }
 }

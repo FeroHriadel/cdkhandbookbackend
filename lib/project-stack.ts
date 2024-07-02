@@ -84,7 +84,7 @@ export class AwsHandbookStack extends cdk.Stack {
     const eventBusData = this.getBusesData().deleteImagesBus;
     this.buses['deleteImagesBus'] = new DeleteImagesEventBus(this, {
       eventBusData: eventBusData, 
-      publisherFunction: this.lambdas.itemDeleteLambda,
+      publisherFunctions: [this.lambdas.itemDeleteLambda, this.lambdas.itemUpdateLambda],
       targetFunction: this.lambdas.deleteImagesLambda
     }).bus;
   }

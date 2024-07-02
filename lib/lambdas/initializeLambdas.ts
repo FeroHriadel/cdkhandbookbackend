@@ -126,7 +126,6 @@ const initializeItemLambdas = (stack: Stack, props: InitItemLambdaProps) => {
         folder: 'items',
         table: tables.itemsTable,
         tableWriteRights: true,
-        policyStatements: {bucketAccessStatement: policyStatements.bucketAccessStatement},
         eventBusData: {
             source: eventBusesData.deleteImagesBus.source,
             detailType: eventBusesData.deleteImagesBus.detailType,
