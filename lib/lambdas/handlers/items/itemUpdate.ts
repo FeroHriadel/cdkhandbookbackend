@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { checkItem, res, ResponseError } from '../../utils';
-import { getItemByName, getItemById, updateItem } from "../../dbOperations";
+import { checkItem, res, ResponseError } from '../utils';
+import { getItemByName, getItemById, updateItem } from "../dbOperations";
 import { EventBridgeClient, PutEventsCommand } from "@aws-sdk/client-eventbridge"
 
 

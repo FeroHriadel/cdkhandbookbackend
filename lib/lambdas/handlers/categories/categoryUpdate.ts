@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { res, ResponseError } from '../../utils';
-import { getCategoryByName, getCategoryById, updateCategory } from "../../dbOperations";
+import { res, ResponseError } from '../utils';
+import { getCategoryByName, getCategoryById, updateCategory } from "../dbOperations";
 import { DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
 

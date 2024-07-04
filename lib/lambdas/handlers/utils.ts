@@ -1,5 +1,5 @@
 import { APIGatewayProxyResult } from "aws-lambda";
-import { ItemsTableFields } from "../../models";
+import { ItemsTableFields } from "../../../models";
 
 
 

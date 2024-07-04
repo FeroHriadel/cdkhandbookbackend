@@ -1,7 +1,7 @@
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { res, ResponseError } from '../../utils';
-import { getTagById, deleteTag } from "../../dbOperations";
+import { res, ResponseError } from '../utils';
+import { getTagById, deleteTag } from "../dbOperations";
 
 
 

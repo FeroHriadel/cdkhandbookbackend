@@ -1,8 +1,8 @@
 import { v4 } from 'uuid';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda'; 
-import { res, log, ResponseError, checkRequiredKeys } from '../../utils';
+import { res, log, ResponseError, checkRequiredKeys } from '../utils';
 import { ItemsTableFields } from '../../../../models';
-import { getItemByName, saveItem } from '../../dbOperations';
+import { getItemByName, saveItem } from '../dbOperations';
 
 
 

@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { res, ResponseError } from '../../utils';
-import { getCategoryById, getAllCategories} from '../../dbOperations';
+import { res, ResponseError } from '../utils';
+import { getCategoryById, getAllCategories} from '../dbOperations';
 
 
 

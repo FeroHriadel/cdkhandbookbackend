@@ -1,8 +1,8 @@
 import { v4 } from 'uuid';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda'; 
-import { res, ResponseError, checkRequiredKeys } from '../../utils';
+import { res, ResponseError, checkRequiredKeys } from '../utils';
 import { CategoriesTableFields } from '../../../../models';
-import { getCategoryByName, saveCategory } from '../../dbOperations';
+import { getCategoryByName, saveCategory } from '../dbOperations';
 
 
 
