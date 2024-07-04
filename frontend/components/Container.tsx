@@ -8,7 +8,7 @@ interface Props {
 
 const Container = ({ children }: Props) => {
   return (
-    <div className='w-[90%] lg:w-[1000px] m-auto flex flex-col items-center'>
+    <div className='w-[90%] lg:w-[1000px] m-auto flex flex-col items-center mt-20'>
         {children}
     </div>
   )
