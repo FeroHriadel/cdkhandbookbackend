@@ -8,6 +8,9 @@ import { initializePolicyStatements } from './policyStatements/initializePolicyS
 import { initializeLambdas } from './lambdas/initializeLambdas';
 import { EventBus } from 'aws-cdk-lib/aws-events';
 import { DeleteImagesEventBus } from './eventBuses/DeleteImagesEventBus';
+import { Authorizer } from './authorizer/Authorizer';
+import { CognitoUserPoolsAuthorizer, RestApi } from 'aws-cdk-lib/aws-apigateway';
+import { attachLambdasToApi } from './lambdas/attachLambdasToApi';
 
 
 
@@ -27,7 +30,8 @@ export class AwsHandbookStack extends cdk.Stack {
   private policyStatements: AppPolicyStatements;
   private lambdas: AppLambdas;
   private buses: {[key: string]: EventBus} = {};
-  private api: Api;
+  private api: RestApi;
+  private authorizer: CognitoUserPoolsAuthorizer;
 
   //constructor:
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -43,6 +47,8 @@ export class AwsHandbookStack extends cdk.Stack {
     this.initAppLambdas();
     this.initAppBuses();
     this.initAppApiGateway();
+    this.initAppAuthorizer();
+    this.attachLambdasToApi()
   }
 
   private initAppTables() {
@@ -90,6 +96,14 @@ export class AwsHandbookStack extends cdk.Stack {
   }
 
   private initAppApiGateway() {
-    this.api = new Api(this, {lambdas: this.lambdas});
+    this.api = new Api(this).api;
+  }
+
+  private initAppAuthorizer() { 
+    this.authorizer = new Authorizer(this, {api: this.api}).authorizer;
+  }
+
+  private attachLambdasToApi() {
+    attachLambdasToApi({api: this.api, lambdas: this.lambdas, authorizer: this.authorizer});
   }
 }

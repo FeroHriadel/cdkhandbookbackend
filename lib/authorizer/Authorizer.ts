@@ -24,9 +24,9 @@ export class Authorizer {
     public authorizer: CognitoUserPoolsAuthorizer;
 
 
-    constructor(scope: Construct, api: RestApi) {
+    constructor(scope: Construct, props: {api: RestApi}) {
       this.scope = scope;
-      this.api = api;
+      this.api = props.api;
       this.initialize();
     }
 
