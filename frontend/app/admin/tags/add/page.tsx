@@ -12,6 +12,8 @@ import { Tag } from '@/models/models';
 import { useAppDispatch } from '@/redux/store';
 import { addTag } from '@/redux/slices/tagsSlice';
 import Container from '@/components/Container';
+import { useAuth } from '@/context/authContext';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -23,11 +25,13 @@ const AddTagPage = () => {
   const [name, setName] = useState('');
   const { toast } = useToast();
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { user } = useAuth(); const { idToken } = user;
 
 
   const saveTagToDB = async (name: string) => {
     const url = '/tags';  const body = {name}
-    const res = await apiCalls.post(url, null, body);
+    const res = await apiCalls.post(url, idToken, body);
       if (res.id) { toast({description: 'Tag saved'}); return res }
       else { toast({description: 'Saving tag failed'}); return {error: true} }
   }
@@ -43,7 +47,7 @@ const AddTagPage = () => {
       if (!name) return toast({description: 'Name is required'});
     const saved = await saveTagToDB(name);
       if (saved.error) return
-    addTagToState(saved); setName('');
+    addTagToState(saved); setName(''); router.push('/admin/tags');
   }
 
 

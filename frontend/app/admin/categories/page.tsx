@@ -11,6 +11,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAppDispatch } from '@/redux/store';
 import { removeCategory } from '@/redux/slices/categoriesSlice';
 import Container from '@/components/Container';
+import { useAuth } from '@/context/authContext';
 
 
 
@@ -23,13 +24,14 @@ const CategoriesPage = () => {
   const router = useRouter();
   const { toast } = useToast();
   const dispatch = useAppDispatch();
+  const { user } = useAuth(); const { idToken } = user;
 
 
   const goToAddCategoryPage = () => router.push('/admin/categories/add');
 
   const deleteCategoryFromDB = async (id: string) => {
     const url = `/categories/${id}`;
-    const res = await apiCalls.del(url, null);
+    const res = await apiCalls.del(url, idToken);
       if (res.id) { toast({description: 'Category deleted'}); return res }
       else { toast({description: 'Deleting Category failed'}); return {error: true} }
   }
@@ -65,10 +67,10 @@ const CategoriesPage = () => {
             categories
             &&
             categories.map(category => (
-              <div className='flex justify-between' key={category.id}>
+              <div className='flex justify-between mb-2' key={category.id}>
                 <span className='flex items-center gap-2'>
                   <div
-                    className='w-[30px] h-[30px] rounded border-solid border-gray-500 border-2'
+                    className={`w-[50px] h-[50px] rounded-full ${category.image ? '' : 'border-solid border-2'}`}
                     style={category.image ? {background: `url(${category.image}) no-repeat center center/cover`} : {}}
                   />
                   <p key={category.id} className='border-b-1'>{category.name}</p>

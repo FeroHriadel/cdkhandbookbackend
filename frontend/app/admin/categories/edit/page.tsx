@@ -18,6 +18,8 @@ import { X } from 'lucide-react';
 import { loadImage, uploadImage } from '@/utils/imageUpload';
 import { useRouter } from 'next/navigation';
 import Container from '@/components/Container';
+import { useAuth } from '@/context/authContext';
+
 
 
 export const dynamic = 'force-dynamic';
@@ -36,6 +38,7 @@ const EditCategoryPage = () => {
   const params = useSearchParams(); 
   const id = params.get('id');
   const router = useRouter();
+  const { user } = useAuth(); const { idToken } = user;
   
 
   const onImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,13 +57,14 @@ const EditCategoryPage = () => {
     if (categories.length === 0) return;
     const idx = categories.findIndex((c: Category) => c.id === id); if (idx === -1) return;
     const c = categories[idx];
-    setCategory({...category, name: c.name}); if (c.image) { setPreview(c.image); };
+    console.log(c);
+    setCategory({...c as any}); if (c.image) { setPreview(c.image); };
   }
   
 
   const updateCategoryInDB = async (name: string, description: string, image: string) => {
     const url = `/categories/${id}`; const body = {name, description, image}
-    const res = await apiCalls.put(url, null, body);
+    const res = await apiCalls.put(url, idToken, body);
     return res;
   }
 
@@ -68,7 +72,7 @@ const EditCategoryPage = () => {
 
   const wasImageChanged = () => category.image !== preview
 
-  const uploadNewImage = async () => { const res = await uploadImage(fileName, preview, null); return res; };
+  const uploadNewImage = async () => { const res = await uploadImage(fileName, preview, idToken); return res; };
 
   const handleEditCategoryFail = () => {
     toast({description: 'Saving category failed'});
@@ -88,7 +92,7 @@ const EditCategoryPage = () => {
       if (wasImageChanged()) {
         const uploadRes = await uploadNewImage(); if (!uploadRes.imageUrl) return handleEditCategoryFail();
         updatedCategory = {...category, image: uploadRes.imageUrl};
-      } else updatedCategory = {...category};
+      } else { updatedCategory = {...category};}
     const updateRes = await updateCategoryInDB(updatedCategory.name, updatedCategory.description, updatedCategory.image); if (!updateRes.id) return handleEditCategoryFail();
     handleEditCategorySuccess(updateRes); 
   }

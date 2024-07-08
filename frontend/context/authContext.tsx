@@ -15,6 +15,7 @@ interface AuthContextState {
   setUser: (user: User) => void;
   logout: () => void;
   getUserFromSession: (session: any) => User;
+  checkingAuth: boolean;
 }
 
 interface AuthContextProviderProps {
@@ -27,13 +28,15 @@ const AuthContext = createContext<AuthContextState>({
     user: {...defaultUser},
     setUser: (user: User) => {},
     logout: () => {},
-    getUserFromSession: (session: any) => ({...defaultUser})
+    getUserFromSession: (session: any) => ({...defaultUser}),
+    checkingAuth: true
 });
 
 
 
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }: {children: React.ReactNode}) => {
   const [user, setUser] = useState<User>({...defaultUser});
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
 
   const logout = async () => {
@@ -64,13 +67,15 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
   }
 
   const populateUser = async () => {
+    setCheckingAuth(true);
     const session = await getCognitoSession();
-    if (!session.idToken) await logout()
+    if (!session.idToken) { await logout(), setCheckingAuth(false) }
     else {
       const user = getUserFromSession(session);
       const now = getCurrentDate();
       if (user.expires < now) await logout()
       else setUser({...user});
+      setCheckingAuth(false);
     }
   }
 
@@ -81,7 +86,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
 
 
   return (
-    <AuthContext.Provider value={{user, setUser, logout, getUserFromSession}}>
+    <AuthContext.Provider value={{user, setUser, logout, getUserFromSession, checkingAuth}}>
         {children}
     </AuthContext.Provider>
   );

@@ -16,6 +16,7 @@ import CategoriesSelect from "@/components/CategoriesSelect";
 import TagsSelect from "@/components/TagsSelect";
 import { useRouter } from "next/navigation";
 import Container from "@/components/Container";
+import { useAuth } from "@/context/authContext";
 
 
 const maxImages = 5;
@@ -27,6 +28,7 @@ const AddItemPage = () => {
   const [disabled, setDisabled] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  const { user } = useAuth(); const { idToken } = user;
 
 
   const onImagesUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,14 +73,14 @@ const AddItemPage = () => {
 
   const saveToDB = async (objectUrls: string[]) => {
     const body = { ...item, images: objectUrls };
-    const res = await apiCalls.post("/items", null, body);
+    const res = await apiCalls.post("/items", idToken, body);
     return res;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); if (!name) return toast({ description: "Name is required" }); 
     setDisabled(true); toast({description: 'Saving item...'})
-    const uploadRes = await uploadImages(selectedImages, null); if (uploadRes.error) return handleSubmitError();
+    const uploadRes = await uploadImages(selectedImages, idToken); if (uploadRes.error) return handleSubmitError();
     const saveToDBRes = await saveToDB(uploadRes.objectUrls!); if (saveToDBRes.error) return handleSubmitError();
     handleSubmitSuccess();
   };

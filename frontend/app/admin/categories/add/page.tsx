@@ -15,7 +15,8 @@ import { addCategory } from '@/redux/slices/categoriesSlice';
 import { loadImage, uploadImage } from '@/utils/imageUpload';
 import FileUploadButton from '@/components/FileUploadButton';
 import Container from '@/components/Container'
-
+import { useAuth } from '@/context/authContext'
+import { useRouter } from 'next/navigation'
 
 
 
@@ -32,12 +33,14 @@ const AddCategoryPage = () => {
   const [disabled, setDisabled] = useState(false);
   const { toast } = useToast();
   const dispatch = useAppDispatch();
+  const { user } = useAuth(); const { idToken } = user;
+  const router = useRouter();
  
 
   const saveCategoryToDB = async (name: string, description: string, image: string) => {
     const url = '/categories'; 
     const body = {name, description, image};
-    const res = await apiCalls.post(url, null, body);
+    const res = await apiCalls.post(url, idToken, body);
       if (res.id) { toast({description: 'Category saved'}); return res }
       else { toast({description: 'Saving Category failed'}); return {error: true} }
   }
@@ -69,6 +72,7 @@ const AddCategoryPage = () => {
     setDescription('');
     setPreview('');
     toast({description: 'Category saved'});
+    router.push('/admin/categories');
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -76,7 +80,7 @@ const AddCategoryPage = () => {
     if (!name) return handleSaveError('Name is required');
     toast({description: 'Saving...'}); setDisabled(true);
     if (preview) {
-      const uploadedImg = await uploadImage(fileName, preview, null); if (!uploadedImg.imageUrl) return handleSaveError(uploadedImg.error);
+      const uploadedImg = await uploadImage(fileName, preview, idToken); if (!uploadedImg.imageUrl) return handleSaveError(uploadedImg.error);
       const saveRes = await saveCategoryToDB(name, description, uploadedImg.imageUrl); if (!saveRes.id) return handleSaveError('Saving failed');
       handleSaveSuccess(saveRes);
     } else {

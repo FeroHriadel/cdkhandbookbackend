@@ -17,6 +17,7 @@ import TagsSelect from '@/components/TagsSelect';
 import { X } from "lucide-react";
 import { loadImages, uploadImages } from '@/utils/imageUpload';
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/context/authContext';
 
 
 
@@ -34,6 +35,7 @@ const EditItemPage = () => {
   const params = useSearchParams();
   const id = params.get('id');
   const router = useRouter();
+  const { user } = useAuth(); const { idToken } = user;
 
 
   const getItem = async () => {
@@ -79,7 +81,7 @@ const EditItemPage = () => {
   const saveToDB = async (objectUrls: string[]) => {
     const newImages = [...item.images!, ...objectUrls];
     const body = { ...item, images: newImages };
-    const res = await apiCalls.put(`/items/${item.id}`, null, body);
+    const res = await apiCalls.put(`/items/${item.id}`, idToken, body);
     return res;
   };
 
@@ -98,7 +100,7 @@ const EditItemPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); if (!name) return toast({ description: "Name is required" }); 
     setDisabled(true); toast({description: 'Updating item...'});
-    const uploadRes = await uploadImages(selectedImages, null); if (uploadRes.error) return handleSubmitError();
+    const uploadRes = await uploadImages(selectedImages, idToken); if (uploadRes.error) return handleSubmitError();
     const saveToDBRes = await saveToDB(uploadRes.objectUrls!); if (saveToDBRes.error) return handleSubmitError();
     handleSubmitSuccess();
   }

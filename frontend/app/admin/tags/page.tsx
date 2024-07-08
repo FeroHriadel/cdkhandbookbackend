@@ -11,6 +11,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAppDispatch } from '@/redux/store';
 import { removeTag } from '@/redux/slices/tagsSlice';
 import Container from '@/components/Container';
+import { useAuth } from '@/context/authContext';
 
 
 
@@ -24,13 +25,15 @@ const TagsPage = () => {
   const router = useRouter();
   const { toast } = useToast();
   const dispatch = useAppDispatch();
+  const { user } = useAuth(); const { idToken } = user;
 
 
   const goToAddTagPage = () => router.push('/admin/tags/add');
 
   const deleteTagFromDB = async (id: string) => {
+    toast({description: 'Deleting tag...'});
     const url = `/tags/${id}`; 
-    const res = await apiCalls.del(url, null);
+    const res = await apiCalls.del(url, idToken);
       if (res.id) { toast({description: 'Tag deleted'}); return res }
       else { toast({description: 'Deleting tag failed'}); return {error: true} }
   }

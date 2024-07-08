@@ -13,6 +13,8 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { editTag } from '@/redux/slices/tagsSlice';
 import { useSearchParams } from 'next/navigation';
 import Container from '@/components/Container';
+import { useAuth } from '@/context/authContext';
+import { useRouter } from 'next/router';
 
 
 
@@ -27,6 +29,8 @@ const EditTagPage = () => {
   const tags = useAppSelector(state => state.tags);
   const params = useSearchParams(); 
   const id = params.get('id');
+  const { user } = useAuth(); const { idToken } = user;
+  const router = useRouter();
   
 
 
@@ -41,7 +45,7 @@ const EditTagPage = () => {
 
   const updateTagInDB = async (name: string) => {
     const url = `/tags/${id}`;  const body = {name}
-    const res = await apiCalls.put(url, null, body);
+    const res = await apiCalls.put(url, idToken, body);
       if (res.id) { toast({description: 'Tag updated'}); return res }
       else { toast({description: 'Updating tag failed'}); return {error: true} }
   }
@@ -57,7 +61,7 @@ const EditTagPage = () => {
       if (!name) return toast({description: 'Name is required'});
     const res = await updateTagInDB(name);
       if (res.error) return
-    editTagInState(res);
+    editTagInState(res); router.push('/admin/tags');
   }
 
 

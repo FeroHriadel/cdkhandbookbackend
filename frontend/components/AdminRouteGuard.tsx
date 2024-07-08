@@ -1,29 +1,28 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAuth } from '@/context/authContext'
+import { useRouter } from 'next/navigation'
 
 
-
-/**
- * 
- * implement rerouting
- * onPage reload:
- * CTX: isChecking = true. After answer false
- * HERE: if (!ctx.isChecking && !user.isAdmin) redirect
- * 
- */
 
 const AdminRouteGuard = () => {
-  const { user } = useAuth();
+  const { user, checkingAuth } = useAuth();
+  const router = useRouter();
 
-  if (user && user.isAdmin) return <></>
 
-  return (
+  useEffect(() => {
+    if (!checkingAuth && !user.isAdmin) { router.push('/signin'); };
+  }, [user, checkingAuth])
+
+
+  if (checkingAuth) return (
     <div className='fixed top-0 left-0 w-full h-full bg-white flex justify-center items-center'>
-      <p>Auth check...</p>
+      <p>Checking auth...</p>
     </div>
   )
+
+  if (user.isAdmin && !checkingAuth) return <></>
 }
 
 export default AdminRouteGuard

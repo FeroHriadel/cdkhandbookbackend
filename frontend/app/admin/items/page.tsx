@@ -8,9 +8,9 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { apiCalls } from '@/utils/apiCalls';
 import { useToast } from '@/components/ui/use-toast';
-import { useAppDispatch } from '@/redux/store';
 import Container from '@/components/Container';
 import { Item } from '@/models/models';
+import { useAuth } from '@/context/authContext';
 
 
 
@@ -24,7 +24,7 @@ const AdminItemsPage = () => {
   const tags = useAppSelector(state => state.tags);
   const router = useRouter();
   const { toast } = useToast();
-  const dispatch = useAppDispatch();
+  const { user } = useAuth(); const { idToken } = user;
 
 
   const getItems = async () => {
@@ -38,7 +38,7 @@ const AdminItemsPage = () => {
   }
 
   const removeItemFromDB = async (id: string) => {
-    const res = await apiCalls.del(`/items/${id}`, null);
+    const res = await apiCalls.del(`/items/${id}`, idToken);
     return res;
   }
 

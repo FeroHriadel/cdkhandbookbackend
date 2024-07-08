@@ -1,9 +1,12 @@
 import React from 'react';
 import AdminRouteGuard from '@/components/AdminRouteGuard';
 
-const AdminLayout = () => {
+const AdminLayout = ({ children }: Readonly<{children: React.ReactNode}>) => {
   return (
-    <AdminRouteGuard/>
+    <>
+      <AdminRouteGuard/>
+      {children}
+    </>
   )
 }
 
