@@ -1,6 +1,7 @@
 import Container from '@/components/Container';
 import React from 'react'
-import { Category } from '@/models/models';
+import { Item } from '@/models/models';
+import ItemCard from '@/components/ItemCard';
 
 
 
@@ -16,7 +17,7 @@ const fetchItems = async () => {
 
 
 const TagsPage = async () => {
-  const items = await fetchItems();
+  let items = await fetchItems();
 
   const areItemsOk = () => { if (!Array.isArray(items)) return false; }
 
@@ -30,9 +31,12 @@ const TagsPage = async () => {
   return (
     <Container>
       <h1 className='mb-5'>Items Page</h1>
-      <main>
-        <p>Check out the following items: </p><br />
-
+      <main className='w-[100%] flex gap-5 flex-wrap justify-center'>
+        {
+          items.map((item: Item) => (
+            <ItemCard key={item.id} item={item} />
+          ))
+        }
       </main>
     </Container>
   )

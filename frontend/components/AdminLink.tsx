@@ -12,7 +12,7 @@ const AdminLink = () => {
   if (!user?.isAdmin) return <></>
 
   return (
-    <li><Link href="/admin" className='text-sm hover:text-orange-800'>Admin</Link></li>
+    <li><Link href="/admin" className='text-sm hover:text-slate-500'>Admin</Link></li>
   )
 }
 

@@ -102,14 +102,14 @@ const SigninPage = () => {
             <p>
                 Don't have an account?
                 {' '}
-                <span className='text-orange-700 hover:text-orange-600'>
+                <span className='text-slate-500 hover:text-slate-600'>
                   <Link href='/signup'>Sign up</Link> 
                 </span>
             </p>
             <p>
                 Forgot password?
                 {' '}
-                <span className='text-orange-700 hover:text-orange-600'>
+                <span className='text-slate-500 hover:text-slate-600'>
                   <Link href='/forgotpassword'>Forgot Password</Link> 
                 </span>
             </p>

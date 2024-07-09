@@ -85,7 +85,7 @@ const AdminItemsPage = () => {
                 <span className='flex items-center gap-2'>
                   <div
                     className={`w-[50px] h-[50px] rounded-full ${image ? '' : 'border-solid border-2'}`}
-                    style={image ? {background: `url(${image}) no-repeat center center/cover`} : {}}
+                    style={image ? {background: `url(${image}) no-repeat center center/cover`, filter: 'grayscale(75%)'} : {}}
                   />
                   <p key={item.id} className='border-b-1'>{item.name}</p>
                 </span>

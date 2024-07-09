@@ -7,12 +7,12 @@ import AdminLink from './AdminLink';
 
 const Navbar = () => {
   return (
-    <nav className='w-full flex justify-between items-center p-2 z-[1] fixed left-0 top-0'>
+    <nav className='w-full flex justify-between items-center p-2'>
       <ul className='flex gap-5 px-2 h-[100%]'>
-        <li><Link href="/" className='text-sm hover:text-orange-800'>Home</Link></li>
-        <li><Link href="/tags" className='text-sm hover:text-orange-800'>Tags</Link></li>
-        <li><Link href="/categories" className='text-sm hover:text-orange-800'>Categories</Link></li>
-        <li><Link href="/items" className='text-sm hover:text-orange-800'>Items</Link></li>
+        <li><Link href="/" className='text-sm hover:text-slate-500'>Home</Link></li>
+        <li><Link href="/tags" className='text-sm hover:text-slate-500'>Tags</Link></li>
+        <li><Link href="/categories" className='text-sm hover:text-slate-500'>Categories</Link></li>
+        <li><Link href="/items" className='text-sm hover:text-slate-500'>Items</Link></li>
         <AdminLink />
       </ul>
 

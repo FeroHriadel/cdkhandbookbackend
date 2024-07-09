@@ -71,7 +71,7 @@ const CategoriesPage = () => {
                 <span className='flex items-center gap-2'>
                   <div
                     className={`w-[50px] h-[50px] rounded-full ${category.image ? '' : 'border-solid border-2'}`}
-                    style={category.image ? {background: `url(${category.image}) no-repeat center center/cover`} : {}}
+                    style={category.image ? {background: `url(${category.image}) no-repeat center center/cover`, filter: 'grayscale(75%)'} : {}}
                   />
                   <p key={category.id} className='border-b-1'>{category.name}</p>
                 </span>

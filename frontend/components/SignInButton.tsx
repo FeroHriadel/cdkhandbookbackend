@@ -17,7 +17,7 @@ const SignInButton = () => {
         ?
         <Button variant='outline' onClick={logout}>Sign out</Button>
         :
-        <Link href="/signin" className='text-sm hover:text-orange-800'>Sign In</Link>        
+        <Link href="/signin" className='text-sm hover:text-slate-500'>Sign In</Link>        
       }
     </div>
   )
