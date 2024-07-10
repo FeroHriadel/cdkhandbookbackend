@@ -6,12 +6,29 @@ const Hero = () => {
   return (
     <div 
       className='w-[100%] h-[500px] flex flex-col justify-center items-center relative'
-      style={{background: `url('/images/posters.jpg') no-repeat center center/cover`}}
+      style={{
+        background: `url('/images/background.png')`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPositionX: 'center',
+        backgroundPositionY: '75%',
+        backgroundSize: 'cover',
+        filter: 'brightness(100%)',
+      }}
     >
-      <div className='absolute top-0 left-0 w-[100%] h-[100%] bg-slate-700 opacity-85' />
+      <div className='absolute top-0 left-0 w-[100%] h-[100%] bg-slate-700 opacity-40' />
       <div className='w-[90%] lg:w-[1000px] m-auto absolute top-[50%] left-[50%]' style={{transform: 'translate(-50%, -50%)'}}>
-        <h1 className='text-white font-bold py-0 my-0 text-center'>ThisSite</h1>
-        <h3 className='text-white py-0 my-0 text-center' style={{lineHeight: 1}}>Where you show 'em...</h3>
+        <h1 
+          className='font-bold py-0 my-0 text-center'
+          style={{textShadow: '0 0 10px white', fontSize: '4rem'}}
+        >
+          THIS SITE
+        </h1>
+        <h3 
+          className='font-bold py-0 my-0 text-center' 
+          style={{lineHeight: 1, textShadow: '0 0 10px white', fontSize: '3rem'}}
+        >
+          ...is where you show them...
+        </h3>
       </div>
     </div>
   )
