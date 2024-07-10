@@ -1,6 +1,7 @@
 import Container from '@/components/Container';
 import React from 'react'
 import { Category } from '@/models/models';
+import { Button } from '@/components/ui/button';
 
 
 
@@ -31,11 +32,13 @@ const TagsPage = async () => {
     <Container>
       <h1 className='mb-5'>Categories Page</h1>
       <main>
-        <p>Items can be categorized as follows: </p><br />
-        <ul className='flex gap-2 w-[100%] flex-wrap justify-center'>
+        <p className='text-center'>Search Items by Category: </p><br />
+        <ul className='flex  flex-col gap-2 w-[100%] flex-wrap items-center'>
           {
             categories.map((category: Category) => (
-              <li key={category.id}>{category.name}</li>
+              <li key={category.id}>
+                <Button className='w-[260px]'>{category.name}</Button>
+              </li>
             ))
           }
         </ul>

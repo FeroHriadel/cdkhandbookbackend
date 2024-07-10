@@ -32,11 +32,13 @@ const TagsPage = async () => {
     <Container>
       <h1 className='mb-5'>Tags Page</h1>
       <main>
-        <p>You can tag your items with the following tags:</p><br />
-        <ul className='flex gap-2 w-[100%] flex-wrap justify-center'>
+        <p>There are currently these tags to choose from: </p><br />
+        <ul className='w-[100%] h-[50px] flex gap-2 justify-center items-center'>
           {
             tags.map((tag: Tag) => (
-              <li key={tag.id}>{tag.name}</li>
+              <li className='rounded-full w-[50px] h-[50px] flex justify-center items-center overflow-hidden bg-slate-400' key={tag.id}>
+                <p className='text-xs text-wrap break-words text-white text-center -rotate-45'>{tag.name}</p>
+              </li>
             ))
           }
         </ul>

@@ -34,7 +34,26 @@ const ItemPage = async ({ params }: {params: {id: string}}) => {
 
       <ItemCardTags item={item} className="mb-5" />
 
+      {
+        firstImage
+        &&
+        <img src={firstImage} style={{width: '100%'}} className='mb-2' />
+      }
+
       <p className='mb-5'>{item.description}</p>
+
+      {
+        item.images.length > 1
+        &&
+        <aside className='w-[100%] flex gap-2'>
+          {
+            item.images.slice(1).map((image: string) => (
+              <img key={image} src={image} style={{width: `${100 / item.images.slice(1).length - 1}%`}} className='mb-2' />
+            ))
+          }
+        </aside>
+      }
+
     </Container>
   )
 }

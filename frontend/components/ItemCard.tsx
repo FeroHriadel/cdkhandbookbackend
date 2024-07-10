@@ -21,18 +21,17 @@ const ItemCard = ({ item }: Props) => {
   return (
     <Card className='w-[260px] flex flex-col items-center'>
 
-      <h4 className='mt-2 font-semibold'>{item.name}</h4>
-
-      <ItemCardCategory item={item} />
-
-
-      <div className='w-[90%] h-[180px] bg-slate-100 relative rounded mb-2'>
+      <div className='w-[90%] h-[180px] bg-slate-100 relative rounded mb-2 mt-4'>
         {
           src
           &&
-          <Image src={src} alt={item.name} fill className='rounded' style={{filter: 'grayscale(75%)'}}/>
+          <Image src={src} alt={item.name} fill sizes='33vw' className='rounded' style={{filter: 'grayscale(75%)'}}/>
         }
       </div>
+
+      <h4 className='mt-2 font-semibold'>{item.name}</h4>
+
+      <ItemCardCategory item={item} />
 
       <div className='h-[50px] flex justify-center items-center mb-2'>
         {

@@ -23,7 +23,7 @@ const ItemCardTags = ({ item, className = '' }: Props) => {
         itemTags.length > 0
         ?
         itemTags.map(tag => (
-          <div className='rounded-full w-[50px] h-[50px] flex justify-center items-center overflow-hidden bg-slate-400'>
+          <div className='rounded-full w-[50px] h-[50px] flex justify-center items-center overflow-hidden bg-slate-400' key={tag.id}>
             <p className='text-xs text-wrap break-words text-white text-center -rotate-45'>{tag.name}</p>
           </div>
         ))
