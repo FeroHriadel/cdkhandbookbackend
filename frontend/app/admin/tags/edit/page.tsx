@@ -14,7 +14,7 @@ import { editTag } from '@/redux/slices/tagsSlice';
 import { useSearchParams } from 'next/navigation';
 import Container from '@/components/Container';
 import { useAuth } from '@/context/authContext';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 
 

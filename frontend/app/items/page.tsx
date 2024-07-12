@@ -29,7 +29,7 @@ const TagsPage = async () => {
   )
 
   return (
-    <Container>
+    <Container className='mb-5'>
       <h1 className='mb-5'>Items Page</h1>
       <main className='w-[100%] flex gap-5 flex-wrap justify-center'>
         {
