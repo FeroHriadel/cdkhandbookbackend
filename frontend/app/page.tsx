@@ -1,6 +1,6 @@
 import React from 'react';
 import Hero from '@/components/Hero';
-import MarketingTwaddle from '@/components/MarketingTwaddle';
+import PromoText from '@/components/PromoText';
 import ItemCard from '@/components/ItemCard';
 import { Item } from '@/models/models';
 import Image from 'next/image';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Container from '@/components/Container';
 import './page.css';
+
 
 
 
@@ -32,7 +33,7 @@ const HomePage = async () => {
       <Hero />
 
       
-      <MarketingTwaddle text={`Welcome to ThisSite, your ultimate platform for showcasing your creativity and organizing your unique items. Whether you're a photographer, artist, or just want to share something of interest, our intuitive interface allows you to create, categorize, and share your personalized collections effortlessly.`} />
+      <PromoText text={`Welcome to ThisSite, your ultimate platform for showcasing your creativity and organizing your unique items. Whether you're a photographer, artist, or just want to share something of interest, our intuitive interface allows you to create, categorize, and share your personalized collections effortlessly.`} />
 
       <section className='w-[100%] mb-10 py-10 flex flex-col items-center justify-center bg-slate-200'>
         <h4 className='mb-5 font-bold'>LATEST ITEMS</h4>
@@ -45,7 +46,7 @@ const HomePage = async () => {
         </div>
       </section>
 
-      <MarketingTwaddle text={`ThisSite empowers you to bring your vision to life. Create individual items with detailed descriptions, and organize them into categories for easy browsing. Add relevant tags to your items to enhance discoverability and streamline searches.`} />
+      <PromoText text={`ThisSite empowers you to bring your vision to life. Create individual items with detailed descriptions, and organize them into categories for easy browsing. Add relevant tags to your items to enhance discoverability and streamline searches.`} />
 
       <section className='w-[100%] mb-10 py-10 flex flex-col items-center justify-center bg-slate-200'>
         <h4 className='mb-5 font-bold'>CATEGORIES</h4>
@@ -75,6 +76,8 @@ const HomePage = async () => {
           </div>
         </Container>
       </section>
+
+      <PromoText text={'ThisSite empowers you to bring your vision to life. Create individual items with detailed descriptions, and organize them into categories for easy browsing. Add relevant tags to your items to enhance discoverability and streamline searches.'} />
 
         {/* <Logo className='mb-2' />
         <p className='text-center'>ThisSite empowers you to bring your vision to life. Create individual items with detailed descriptions, and organize them into categories for easy browsing. Add relevant tags to your items to enhance discoverability and streamline searches.</p><br /><br />

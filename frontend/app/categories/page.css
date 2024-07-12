@@ -1,0 +1,13 @@
+@media (max-width: 800px) {
+  .category-section {
+    flex-direction: column;
+  }
+
+  .category-section-image {
+    width: 100%;
+  }
+
+  .category-section-description {
+    max-height: none;
+  }
+}

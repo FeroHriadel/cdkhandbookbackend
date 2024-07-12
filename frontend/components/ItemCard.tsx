@@ -6,6 +6,7 @@ import ItemCardCategory from './ItemCardCategory';
 import ItemCardTags from './ItemCardTags';
 import Link from 'next/link';
 import { Button } from './ui/button';
+import CenteredImage from './CenteredImage';
 
 
 
@@ -21,13 +22,21 @@ const ItemCard = ({ item }: Props) => {
   return (
     <Card className='w-[260px] flex flex-col items-center'>
 
-      <div className='w-[90%] h-[180px] bg-slate-100 relative rounded mb-2 mt-4'>
+      {/* <div className='w-[90%] h-[250px] bg-slate-100 relative rounded mb-2 mt-4'>
         {
           src
           &&
           <Image src={src} alt={item.name} fill sizes='33vw' className='rounded' style={{filter: 'grayscale(75%)'}}/>
         }
-      </div>
+      </div> */}
+
+      {
+        src
+        ?
+        <CenteredImage src={src} width="90%" height="250px" className='mt-4 mb-2 rounded' style={{filter: 'grayscale(75%)'}} />
+        :
+        <div className='w-[90%] h-[250px] bg-slate-100 relative rounded mb-2 mt-4'></div>
+      }
 
       <h4 className='mt-2 font-semibold'>{item.name}</h4>
 

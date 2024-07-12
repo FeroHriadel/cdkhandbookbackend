@@ -7,7 +7,7 @@ interface Props {
   className?: string;
 }
 
-const MarketingTwaddle = ({ text, className = '' }: Props) => {
+const PromoText = ({ text, className = '' }: Props) => {
   return (
     <section className={`my-10 py-10 flex flex-col items-center justify-center ` + className}>
         <div className='w-[90%] lg:w-[1000px] m-auto flex flex-col items-center'>
@@ -19,4 +19,4 @@ const MarketingTwaddle = ({ text, className = '' }: Props) => {
   )
 }
 
-export default MarketingTwaddle
+export default PromoText
