@@ -1,9 +1,13 @@
 import React from 'react';
-import Container from '@/components/Container';
 import Hero from '@/components/Hero';
-import Logo from '@/components/Logo';
+import MarketingTwaddle from '@/components/MarketingTwaddle';
 import ItemCard from '@/components/ItemCard';
 import { Item } from '@/models/models';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import Container from '@/components/Container';
+import './page.css';
 
 
 
@@ -27,16 +31,10 @@ const HomePage = async () => {
     <div className='w-[100%]'>
       <Hero />
 
-      <section className='my-10 py-10 flex flex-col items-center justify-center'>
-        <div className='w-[90%] lg:w-[1000px] m-auto flex flex-col items-center'>
-          <Logo className='mb-4' />
-          <h4 className='text-center mb-10'>
-            Welcome to ThisSite, your ultimate platform for showcasing your creativity and organizing your unique items. Whether you're a photographer, artist, or just want to share something of interest, our intuitive interface allows you to create, categorize, and share your personalized collections effortlessly.
-          </h4>
-        </div>
-      </section>
+      
+      <MarketingTwaddle text={`Welcome to ThisSite, your ultimate platform for showcasing your creativity and organizing your unique items. Whether you're a photographer, artist, or just want to share something of interest, our intuitive interface allows you to create, categorize, and share your personalized collections effortlessly.`} />
 
-      <section className='w-[100%] mb-10 py-10 flex flex-col items-center justify-center bg-slate-50'>
+      <section className='w-[100%] mb-10 py-10 flex flex-col items-center justify-center bg-slate-200'>
         <h4 className='mb-5 font-bold'>LATEST ITEMS</h4>
         <div className='flex justify-center gap-5 flex-wrap'>
           {
@@ -47,15 +45,36 @@ const HomePage = async () => {
         </div>
       </section>
 
-      <section className='my-10 py-10 flex flex-col items-center justify-center'>
-        <div className='w-[90%] lg:w-[1000px] m-auto flex flex-col items-center'>
-          <Logo className='mb-4' />
-          <h4 className='text-center'>
-            ThisSite empowers you to bring your vision to life. Create individual items with detailed descriptions, and organize them into categories for easy browsing. Add relevant tags to your items to enhance discoverability and streamline searches.
-          </h4>
-        </div>
-      </section>
+      <MarketingTwaddle text={`ThisSite empowers you to bring your vision to life. Create individual items with detailed descriptions, and organize them into categories for easy browsing. Add relevant tags to your items to enhance discoverability and streamline searches.`} />
 
+      <section className='w-[100%] mb-10 py-10 flex flex-col items-center justify-center bg-slate-200'>
+        <h4 className='mb-5 font-bold'>CATEGORIES</h4>
+        <Container style={{marginTop: '0'}}>
+          <div className='w-[100%] flex gap-5 categories-image-and-text-wrapper'>
+            <div className='rounded relative min-w-[49%] categories-image'>
+              <Image 
+                width={260} 
+                height={260} 
+                alt="Categories" 
+                src="/images/boxes.png" 
+                className='w-[100%] rounded' 
+              />
+              <div className='absolute top-0 left-0 w-[100%] h-[100%] bg-slate-700 opacity-40 rounded' />
+            </div>
+
+            <div className='h-[100%]'>
+              <p className=''>
+                As a creator, you can assign your items to relevant categories, ensuring they are easily found by those who are most interested. This not only increases the visibility of your creations but also connects you with an audience that truly appreciates your work. By categorizing your items, you help potential admirers and buyers to navigate through a vast array of content and find exactly what they’re looking for with just a few clicks.
+
+                For users, our category-based search functionality is a game-changer. No more endless scrolling or guesswork – simply select a category that interests you, and explore a curated list of items that match your preferences. Whether you're searching for unique art pieces, innovative gadgets, fashion items, or collectibles, our category filters make it quick and easy to find the perfect items.
+              </p>
+              <Button asChild className='w-[100%] mt-5'>
+                <Link href="/categories">See Categories</Link>
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </section>
 
         {/* <Logo className='mb-2' />
         <p className='text-center'>ThisSite empowers you to bring your vision to life. Create individual items with detailed descriptions, and organize them into categories for easy browsing. Add relevant tags to your items to enhance discoverability and streamline searches.</p><br /><br />

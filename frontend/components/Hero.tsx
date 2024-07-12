@@ -5,7 +5,7 @@ import React from 'react';
 const Hero = () => {
   return (
     <div 
-      className='w-[100%] h-[500px] flex flex-col justify-center items-center relative'
+      className='w-[100%] h-[600px] flex flex-col justify-center items-center relative'
       style={{
         background: `url('/images/background.png')`,
         backgroundRepeat: 'no-repeat',
@@ -19,13 +19,13 @@ const Hero = () => {
       <div className='w-[90%] lg:w-[1000px] m-auto absolute top-[50%] left-[50%]' style={{transform: 'translate(-50%, -50%)'}}>
         <h1 
           className='font-bold py-0 my-0 text-center'
-          style={{textShadow: '0 0 10px white', fontSize: '4rem'}}
+          style={{textShadow: '0 0 10px black', fontSize: '4rem', color: '#eee'}}
         >
           THIS SITE
         </h1>
         <h3 
           className='font-bold py-0 my-0 text-center' 
-          style={{lineHeight: 1, textShadow: '0 0 10px white', fontSize: '3rem'}}
+          style={{lineHeight: 1, textShadow: '0 0 10px black', fontSize: '3rem', color: '#eee'}}
         >
           ...is where you show them...
         </h3>
