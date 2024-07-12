@@ -1,0 +1,37 @@
+.page-wrapper {
+  background: linear-gradient(to bottom, #fff, #64748b);
+}
+
+.small-image {
+  min-width: 48%;
+}
+
+
+
+@media (max-width: 1023px) {
+  .small-image {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .first-image {
+    max-height: 500px;
+  }
+
+  .small-image {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .first-image {
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 400px) {
+  .first-image {
+    max-height: 300px;
+  }
+}

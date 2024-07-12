@@ -38,6 +38,7 @@ const EditItemPage = () => {
   const { user } = useAuth(); const { idToken } = user;
 
 
+
   const getItem = async () => {
     const url = `/items?item=${id}`;
     const res = await apiCalls.get(url);
@@ -50,7 +51,7 @@ const EditItemPage = () => {
   };
 
   const handleCategoryChange = (v: string) => {
-    setItem((prev) => setItem({...prev, category: v}));
+    setItem((prev) => ({...prev, category: v}));
   };
 
   const handleTagsChange = (v: string) => {

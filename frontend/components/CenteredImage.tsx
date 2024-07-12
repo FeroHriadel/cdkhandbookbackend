@@ -32,17 +32,11 @@ const CenteredImage = ({
       else throw new Error('Invalid input: must be a number or a string');
   }
 
-  const extractNumberFromString = (str: string) => {
-    const match = str.match(/-?\d+(\.\d+)?/);
-    if (match) return match[0]
-    else throw new Error('No valid number found in the input string');
-  }
-
 
   return (
     <div 
-      className={`w-[${convertValue(width)}] min-w-[${convertValue(width)}] h-[${convertValue(height)}] relative flex justify-center items-center overflow-hidden rounded ` + className}
-      style={style}
+      className={`relative flex justify-center items-center overflow-hidden rounded ` + className}
+      style={{height, width, ...style /* had to pass height & width in inline styles bc tailwind `h-[${convertValue(width)}] & w-[...]` occasionally failed, use: `max-height`, `min-width`, etc... if you need to change the height from @media@query */}} 
     >
       <Image 
         src={src} 

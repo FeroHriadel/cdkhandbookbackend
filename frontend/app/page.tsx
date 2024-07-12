@@ -66,7 +66,7 @@ const HomePage = async () => {
             <div className='h-[100%]'>
               <p className=''>
                 As a creator, you can assign your items to relevant categories, ensuring they are easily found by those who are most interested. This not only increases the visibility of your creations but also connects you with an audience that truly appreciates your work. By categorizing your items, you help potential admirers and buyers to navigate through a vast array of content and find exactly what they’re looking for with just a few clicks.
-
+                <br /><br />
                 For users, our category-based search functionality is a game-changer. No more endless scrolling or guesswork – simply select a category that interests you, and explore a curated list of items that match your preferences. Whether you're searching for unique art pieces, innovative gadgets, fashion items, or collectibles, our category filters make it quick and easy to find the perfect items.
               </p>
               <Button asChild className='w-[100%] mt-5'>
