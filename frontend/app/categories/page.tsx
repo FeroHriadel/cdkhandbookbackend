@@ -42,9 +42,9 @@ const TagsPage = async () => {
             {
               category.image
               ?
-              <CenteredImage src={category.image || ''} width={400} height={400} className='category-section-image' />
+              <CenteredImage src={category.image || ''} width={400} height={400} className='min-w-[400px] category-section-image' />
               :
-              <div className='w-[400px] h-[400px] bg-slate-100 category-section-image' />
+              <div className='w-[400px] min-w-[400px] h-[400px] bg-slate-100 category-section-image' />
             }
             <div className='category-section-description w-[100%] max-h-[400px] overflow-y-auto flex flex-col gap-5 items-center'>
               <p>{category.description || 'No description provided yet'}</p>
