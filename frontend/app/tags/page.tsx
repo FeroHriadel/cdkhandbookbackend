@@ -1,6 +1,7 @@
 import Container from '@/components/Container';
 import React from 'react'
 import { Tag } from '@/models/models';
+import Link from 'next/link';
 
 
 
@@ -36,11 +37,13 @@ const TagsPage = async () => {
         <ul className='w-[100%] flex gap-5 justify-center flex-wrap items-center'>
           {
             tags.map((tag: Tag) => (
-              <li 
-                className='rounded-full w-[100px] min-w-[100px] h-[100px] flex justify-center items-center overflow-hidden bg-slate-400 cursor-pointer' 
-                key={tag.id}>
-                <p className='text-sm text-wrap break-words text-white text-center -rotate-45'>{tag.name}</p>
-              </li>
+              <Link href={`/search?tag=${tag.id}`}>
+                <li 
+                  className='rounded-full w-[100px] min-w-[100px] h-[100px] flex justify-center items-center overflow-hidden bg-slate-400 cursor-pointer' 
+                  key={tag.id}>
+                  <p className='text-sm text-wrap break-words text-white text-center -rotate-45'>{tag.name}</p>
+                </li>
+              </Link>
             ))
           }
         </ul>
