@@ -51,6 +51,7 @@ const AddItemPage = () => {
   };
 
   const handleCategoryChange = (v: string) => {
+    if (v === 'clearcategory') return setItem({...item, category: ''});
     setItem({ ...item, category: v });
   };
 

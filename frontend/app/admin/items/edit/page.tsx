@@ -38,6 +38,8 @@ const EditItemPage = () => {
   const { user } = useAuth(); const { idToken } = user;
 
 
+  console.log('************CAT', category)
+
 
   const getItem = async () => {
     const url = `/items?item=${id}`;
@@ -51,6 +53,7 @@ const EditItemPage = () => {
   };
 
   const handleCategoryChange = (v: string) => {
+    if (v === 'clearcategory') return setItem({...item, category: ''});
     setItem((prev) => ({...prev, category: v}));
   };
 
@@ -128,7 +131,7 @@ const EditItemPage = () => {
             <Label htmlFor="description">Item Description</Label>
             <Textarea name="description" value={description} onChange={handleChange} className="mb-2" disabled={disabled} />
 
-            {category && <CategoriesSelect onValueChange={handleCategoryChange} className="mb-2" defaultValue={item.category} />}
+            <CategoriesSelect onValueChange={handleCategoryChange} className="mb-2" defaultValue={item.category} key={item.category} />
             {tags && <TagsSelect onCheckedChange={handleTagsChange} selectedTags={tags}/>} <br />
 
             {/* Saved Images */}

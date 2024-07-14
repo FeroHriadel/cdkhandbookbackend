@@ -25,11 +25,12 @@ const CategoriesSelect = ({ onValueChange, className, defaultValue = ""}: Props)
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Categories</SelectLabel>
-            {categories.map((category) => (
-              <SelectItem key={category.id} value={category.id}>
-                {category.name}
-              </SelectItem>
-            ))}
+              <SelectItem key="clearcategory" value="clearcategory">no category</SelectItem>
+              {categories.map((category) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.name}
+                </SelectItem>
+              ))}
           </SelectGroup>
         </SelectContent>
       </Select>

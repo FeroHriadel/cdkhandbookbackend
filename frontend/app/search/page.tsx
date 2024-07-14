@@ -36,10 +36,17 @@ const SearchPage = () => {
   function setSearchParam(key: string, value: string) {
     const newParams = new URLSearchParams(params);
     newParams.set(key, value);
-    router.push(`?${newParams.toString()}`);
+    router.push(`?${newParams.toString()}`)
+  }
+
+  function deleteSearchParam(key: string) {
+    const newParams = new URLSearchParams(params);
+    newParams.delete('category');
+    newParams.toString() ? router.push(`?${newParams.toString()}`) : router.push(window.location.pathname);
   }
 
   function changeCategory(id: string) {
+    if (id === 'clearcategory') return deleteSearchParam('category');
     setSearchParam('category', id);
   }
 
@@ -56,9 +63,9 @@ const SearchPage = () => {
     <Container>
       <h1 className='mb-5'>Search Page</h1>
 
-      <CategoriesSelect onValueChange={changeCategory} />
+      <CategoriesSelect onValueChange={changeCategory} defaultValue={params.get('category') || ''} />
 
-      <div className='w-[100%] flex justify-center gap-2 flex-wrap mb-5'>
+      <div className='w-[100%] flex justify-center gap-5 flex-wrap mb-5'>
         {
           items.map((item: Item) => (
             <ItemCard key={item.id} item={item} />
