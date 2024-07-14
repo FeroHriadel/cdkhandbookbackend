@@ -38,9 +38,6 @@ const EditItemPage = () => {
   const { user } = useAuth(); const { idToken } = user;
 
 
-  console.log('************CAT', category)
-
-
   const getItem = async () => {
     const url = `/items?item=${id}`;
     const res = await apiCalls.get(url);
