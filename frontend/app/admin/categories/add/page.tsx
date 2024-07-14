@@ -94,7 +94,7 @@ const AddCategoryPage = () => {
     <Container>
       <div className='flex items-center gap-4 mb-8'>
         <div className='translate-y-1'><PackagePlus size={50} /></div>
-        <h1 className='leading-none'>Add Tag</h1>
+        <h1 className='leading-none'>Add Category</h1>
       </div>
 
       <Card className='w-[90%] lg:w-[50%]'>

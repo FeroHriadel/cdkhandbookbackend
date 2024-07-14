@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import CenteredImage from '@/components/CenteredImage';
 import './page.css';
+import Link from 'next/link';
 
 
 
@@ -48,7 +49,11 @@ const TagsPage = async () => {
             }
             <div className='category-section-description w-[100%] max-h-[400px] overflow-y-auto flex flex-col gap-5 items-center'>
               <p>{category.description || 'No description provided yet'}</p>
-              <Button className='w-[100%]'>{`See ${category.name} items`}</Button>
+              <Button className='w-[100%]' asChild>
+                <Link href={`/search?category=${category.id}`}>
+                  {`See ${category.name} items`}
+                </Link>
+              </Button>
             </div>
           </section>
         ))
