@@ -8,6 +8,7 @@ import { Item } from '@/models/models';
 import { useToast } from '@/components/ui/use-toast';
 import ItemCard from '@/components/ItemCard';
 import CategoriesSelect from '@/components/CategoriesSelect';
+import { TagsCombobox } from '@/components/TagsCombobox';
 
 
 
@@ -20,7 +21,7 @@ const SearchPage = () => {
   const router = useRouter();
   const { toast } = useToast();
   const [items, setItems] = useState<Item[]>([]);
-  
+
 
   async function getItems(queryString: string) {
     const items = await apiCalls.get(`/items${queryString}`); if (!Array.isArray(items)) return toast({description: 'Failed to get Items'});
@@ -41,13 +42,18 @@ const SearchPage = () => {
 
   function deleteSearchParam(key: string) {
     const newParams = new URLSearchParams(params);
-    newParams.delete('category');
+    newParams.delete(key);
     newParams.toString() ? router.push(`?${newParams.toString()}`) : router.push(window.location.pathname);
   }
 
   function changeCategory(id: string) {
     if (id === 'clearcategory') return deleteSearchParam('category');
     setSearchParam('category', id);
+  }
+
+  function changeTag(id: string) {
+    if (id === 'cleartag') return deleteSearchParam('tag');
+    setSearchParam('tag', id);
   }
 
 
@@ -64,6 +70,8 @@ const SearchPage = () => {
       <h1 className='mb-5'>Search Page</h1>
 
       <CategoriesSelect onValueChange={changeCategory} defaultValue={params.get('category') || ''} />
+      
+      <TagsCombobox onValueChange={changeTag} defaultValue={params.get('tag') || ''} />
 
       <div className='w-[100%] flex justify-center gap-5 flex-wrap mb-5'>
         {
