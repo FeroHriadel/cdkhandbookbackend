@@ -16,9 +16,9 @@ interface Props {
 }
 
 
-export function TagsCombobox({ onValueChange, defaultValue = "" }: Props) {
-  const clearingTag = {id: 'cleartag', name: 'any tag'};
-  const tags = [clearingTag, ...useAppSelector((state) => state.tags)];
+export function CategoriesCombobox({ onValueChange, defaultValue = "" }: Props) {
+  const clearingCategory = {id: 'clearcategory', name: 'any category'};
+  const categories = [clearingCategory, ...useAppSelector((state) => state.categories)];
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue);
 
@@ -39,9 +39,9 @@ export function TagsCombobox({ onValueChange, defaultValue = "" }: Props) {
           {
             value
             ? 
-            tags.find((tag) => tag.id === value)?.name
+            categories.find((category) => category.id === value)?.name
             : 
-            "Select tag..."
+            "Select category..."
           }
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -49,19 +49,19 @@ export function TagsCombobox({ onValueChange, defaultValue = "" }: Props) {
 
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search tag..." className="h-9" />
+          <CommandInput placeholder="Search category..." className="h-9" />
           <CommandList>
-            <CommandEmpty>No tag found.</CommandEmpty>
+            <CommandEmpty>No category found.</CommandEmpty>
             <CommandGroup>
               {
-                tags.map((tag) => (
+                categories.map((category) => (
                   <CommandItem
-                    key={tag.id}
-                    value={tag.id}
+                    key={category.id}
+                    value={category.id}
                     onSelect={(currentValue) => { changeValue(currentValue === value ? "" : currentValue); setOpen(false) }}
                   >
-                    {tag.name}
-                    <CheckIcon className={cn("ml-auto h-4 w-4", value === tag.id ? "opacity-100" : "opacity-0")} />
+                    {category.name}
+                    <CheckIcon className={cn("ml-auto h-4 w-4", value === category.id ? "opacity-100" : "opacity-0")} />
                   </CommandItem>
                 ))
               }

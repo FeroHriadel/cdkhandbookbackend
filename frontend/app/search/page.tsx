@@ -7,8 +7,8 @@ import { apiCalls } from '@/utils/apiCalls';
 import { Item } from '@/models/models';
 import { useToast } from '@/components/ui/use-toast';
 import ItemCard from '@/components/ItemCard';
-import CategoriesSelect from '@/components/CategoriesSelect';
 import { TagsCombobox } from '@/components/TagsCombobox';
+import { CategoriesCombobox } from '@/components/CategoriesCombobox';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from "@/components/ui/checkbox"
 
@@ -36,9 +36,11 @@ const SearchPage = () => {
     return queryString;
   }
 
-  function setSearchParam(key: string, value: string) {
+  //used by `tag`, `category`, and `order` which can co-exist. Not used by `namesearch` - which must be the only query if used. `Namesearch` clears `t`, `c`, `o`.
+  function setSearchParam(key: string, value: string) { 
     const newParams = new URLSearchParams(params);
     newParams.set(key, value);
+    if (newParams.get('namesearch')) newParams.delete('namesearch'); //setting `tag`, `category`, or `order` clears `namesearch`
     router.push(`?${newParams.toString()}`)
   }
 
@@ -60,8 +62,9 @@ const SearchPage = () => {
 
   function changeNamesearch(value: string) {
     if (value === '') return deleteSearchParam('namesearch');
-    setSearchParam('namesearch', value);
-    //clear category & tag if namesearch !!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const newParams = new URLSearchParams();
+    newParams.set('namesearch', value);
+    router.push(`?${newParams.toString()}`);
   }
 
   function changeOrder(value: boolean) {
@@ -79,17 +82,21 @@ const SearchPage = () => {
 
   return (
     <Container>
-      <h1 className='mb-5'>Search Page</h1>
+      <h1 className='mb-5 text-center'>Search Page</h1>
 
-      <CategoriesSelect onValueChange={changeCategory} defaultValue={params.get('category') || ''} />
-      
-      <TagsCombobox onValueChange={changeTag} defaultValue={params.get('tag') || ''} />
+      <div className='flex flex-col items-center mb-10'>
+        <div className='flex gap-2 items-center justify-center flex-wrap mb-5'>
+          <CategoriesCombobox onValueChange={changeCategory} defaultValue={params.get('category') || ''} key={'categorykey' + params.get('category')} />
+          <TagsCombobox onValueChange={changeTag} defaultValue={params.get('tag') || ''} key={'tagkey'+ params.get('tag')} />
+          <span className='w-[200px] flex gap-1 items-center justify-center sm:justify-start'>
+            <Checkbox checked={params.get('order') === 'latest'} id="order-by-latest" onCheckedChange={(v: boolean) => changeOrder(v)}/>
+            <label htmlFor="order-by-latest">order by latest</label>
+          </span>
+        </div>
 
-      <Input type='text' placeholder='Search...' value={params.get('namesearch') || ''} onChange={(e) => changeNamesearch(e.target.value)} />
+        <p className='text-sm'>or search by name</p>
 
-      <div>
-      <Checkbox checked={params.get('order') === 'latest'} id="order-by-latest" onCheckedChange={(v: boolean) => changeOrder(v)}/>
-        <label htmlFor="order-by-latest">order by latest</label>
+        <Input type='text' placeholder='Search...' value={params.get('namesearch') || ''} onChange={(e) => changeNamesearch(e.target.value)} />
       </div>
 
       <div className='w-[100%] flex justify-center gap-5 flex-wrap mb-5'>
