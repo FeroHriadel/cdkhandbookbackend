@@ -17,7 +17,7 @@ interface Props {
 
 
 export function TagsCombobox({ onValueChange, defaultValue = "" }: Props) {
-  const clearingTag = {id: 'cleartag', name: 'No Tag'};
+  const clearingTag = {id: 'cleartag', name: 'no tag'};
   const tags = [clearingTag, ...useAppSelector((state) => state.tags)];
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue);

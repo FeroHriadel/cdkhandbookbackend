@@ -9,6 +9,8 @@ import { useToast } from '@/components/ui/use-toast';
 import ItemCard from '@/components/ItemCard';
 import CategoriesSelect from '@/components/CategoriesSelect';
 import { TagsCombobox } from '@/components/TagsCombobox';
+import { Input } from '@/components/ui/input';
+import { Checkbox } from "@/components/ui/checkbox"
 
 
 
@@ -56,6 +58,16 @@ const SearchPage = () => {
     setSearchParam('tag', id);
   }
 
+  function changeNamesearch(value: string) {
+    if (value === '') return deleteSearchParam('namesearch');
+    setSearchParam('namesearch', value);
+    //clear category & tag if namesearch !!!!!!!!!!!!!!!!!!!!!!!!!!!
+  }
+
+  function changeOrder(value: boolean) {
+    value ? setSearchParam('order', 'latest') : deleteSearchParam('order');
+  }
+
 
   useEffect(() => {
     getItems(getQueryString())
@@ -72,6 +84,13 @@ const SearchPage = () => {
       <CategoriesSelect onValueChange={changeCategory} defaultValue={params.get('category') || ''} />
       
       <TagsCombobox onValueChange={changeTag} defaultValue={params.get('tag') || ''} />
+
+      <Input type='text' placeholder='Search...' value={params.get('namesearch') || ''} onChange={(e) => changeNamesearch(e.target.value)} />
+
+      <div>
+      <Checkbox checked={params.get('order') === 'latest'} id="order-by-latest" onCheckedChange={(v: boolean) => changeOrder(v)}/>
+        <label htmlFor="order-by-latest">order by latest</label>
+      </div>
 
       <div className='w-[100%] flex justify-center gap-5 flex-wrap mb-5'>
         {
