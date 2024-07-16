@@ -1,12 +1,13 @@
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { res, ResponseError } from '../utils';
+import { adminOnly, res, ResponseError } from '../utils';
 import { getTagById, deleteTag } from "../dbOperations";
 
 
 
 export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
+        adminOnly(event);
         const id = event.pathParameters?.id;
         const tagExists = await getTagById(id!);
         if (!tagExists) throw new ResponseError(404, 'Tag with such id not found');

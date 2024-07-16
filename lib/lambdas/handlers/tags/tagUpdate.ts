@@ -1,11 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { res, ResponseError } from '../utils';
+import { adminOnly, res, ResponseError } from '../utils';
 import { getTagByName, getTagById, updateTag } from "../dbOperations";
 
 
 
 export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
+        adminOnly(event);
         const id = event.pathParameters?.id;
         const newName = JSON.parse(event.body!).name;
         if (!id || !newName) throw new ResponseError(400, 'id and new name are required');

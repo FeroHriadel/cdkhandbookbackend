@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { res, ResponseError } from '../utils';
+import { adminOnly, res, ResponseError } from '../utils';
 import { getCategoryByName, getCategoryById, updateCategory } from "../dbOperations";
 import { DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
@@ -22,6 +22,7 @@ async function deleteOldImage(objectUrl: string) {
 
 export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
+        adminOnly(event);
         const body = JSON.parse(event.body!);
         const id = event.pathParameters?.id;
         if (!id) throw new ResponseError(400, 'id is required');

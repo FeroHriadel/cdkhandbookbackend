@@ -7,11 +7,12 @@ import { getItemByName, saveItem } from '../dbOperations';
 
 
 function createItem(props: {[key: string]: any}) {
-    const { name, description, category, tags, images } = props;
+    const { name, description, category, tags, images, createdBy } = props;
     const item: ItemsTableFields = {
         id: v4(),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        createdBy: createdBy || 'unknown',
         type: '#ITEM',
         namesearch: name.toLowerCase(),
         name,
@@ -34,7 +35,8 @@ export async function handler(event: APIGatewayProxyEvent, context: Context): Pr
         const nameExists = await getItemByName(body.name);
         if (nameExists) throw new ResponseError(403, 'Item with such name already exists'); 
 
-        const itemToSave = createItem({...body});
+        const userEmail = event?.requestContext?.authorizer?.claims['email'];
+        const itemToSave = createItem({...body, createdBy: userEmail});
         const saveItemResponse = await saveItem(itemToSave);
         if (!saveItemResponse) throw new ResponseError(500, 'Item was not saved.');
         

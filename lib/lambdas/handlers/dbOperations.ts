@@ -1,7 +1,7 @@
 import { DynamoDB, PutItemCommand, PutItemCommandInput } from "@aws-sdk/client-dynamodb";
 import { QueryCommand, DynamoDBDocumentClient, GetCommand, UpdateCommand, UpdateCommandInput, DeleteCommand, DeleteCommandInput } from "@aws-sdk/lib-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
-import { CategoriesTableFields, TagsTableFields, ItemsTableFields } from '../../models';
+import { CategoriesTableFields, TagsTableFields, ItemsTableFields } from '../../../models';
 import { ResponseError } from './utils';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -235,6 +235,20 @@ export const getItemsByTag = async (tag: string) => {
         KeyConditionExpression: '#type = :type',
         ExpressionAttributeNames: {'#type': 'type', '#tags': 'tags'},
         ExpressionAttributeValues: {':type': '#ITEM', ':tag': tag},
+        ScanIndexForward: true,
+    };
+    const response = await docClient.send(new QueryCommand(params));
+    return response.Items;
+}
+
+export const getItemsByCreatedBy = async (createdBy: string) => {
+    const params = {
+        TableName: process.env.TABLE_NAME!,
+        IndexName: 'nameSort',
+        FilterExpression: `contains(#createdBy, :createdBy)`,
+        KeyConditionExpression: '#type = :type',
+        ExpressionAttributeNames: {'#type': 'type', '#createdBy': 'createdBy'},
+        ExpressionAttributeValues: {':type': '#ITEM', ':createdBy': createdBy},
         ScanIndexForward: true,
     };
     const response = await docClient.send(new QueryCommand(params));

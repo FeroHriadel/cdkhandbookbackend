@@ -1,6 +1,6 @@
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { res, ResponseError } from '../utils';
+import { adminOnly, res, ResponseError } from '../utils';
 import { getCategoryById, deleteCategory } from "../dbOperations";
 import { DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
@@ -12,6 +12,7 @@ const client = new S3Client({region: process.env.REGION});
 
 export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
+        adminOnly(event);
         console.log('lambda triggered');
         console.log('bucket name check:', process.env.BUCKET_NAME!)
         const id = event.pathParameters?.id;

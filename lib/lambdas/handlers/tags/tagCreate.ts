@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda'; 
-import { res, log, ResponseError, checkRequiredKeys } from '../utils';
+import { res, log, ResponseError, checkRequiredKeys, adminOnly } from '../utils';
 import { TagsTableFields } from '../../../../models';
 import { getTagByName, saveTag } from '../dbOperations';
 
@@ -21,7 +21,7 @@ function createTag(name: string) {
 
 export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
-        log('event: ', event);
+        adminOnly(event);
         const body = JSON.parse(event.body!);
 
         checkRequiredKeys(body, ['name']);

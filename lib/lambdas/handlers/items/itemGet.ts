@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { res, ResponseError } from '../utils';
-import { getItemById, getAllItems, getItemsOrderedByDate, getItemsByCategory, getItemsByTag, getItemsByCategoryAndTag, getItemsWhereNameIncludes } from '../dbOperations';
+import { getItemById, getAllItems, getItemsOrderedByDate, getItemsByCategory, getItemsByTag, getItemsByCategoryAndTag, getItemsWhereNameIncludes, getItemsByCreatedBy } from '../dbOperations';
 
 
 
@@ -20,6 +20,10 @@ export async function handler(event: APIGatewayProxyEvent, context: Context): Pr
             //get by id
             if (query.item) {
                 result = await getItemById(query.item);
+            }
+            //get by creator
+            else if (query.createdby) {
+                result = await getItemsByCreatedBy(query.createdby);
             }
             //search items by name (name includes - case insensitive)
             else if (query.namesearch) {

@@ -1,6 +1,6 @@
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { res, ResponseError } from '../utils';
+import { adminOnly, res, ResponseError } from '../utils';
 import { getItemById, deleteItem } from "../dbOperations";
 import { EventBridgeClient, PutEventsCommand } from "@aws-sdk/client-eventbridge"
 
@@ -41,6 +41,7 @@ function getPutEventParams(itemImages: string[]) {
 
 export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
+        adminOnly(event);
         const id = event.pathParameters?.id;
 
         const itemExists = await getItemById(id!);

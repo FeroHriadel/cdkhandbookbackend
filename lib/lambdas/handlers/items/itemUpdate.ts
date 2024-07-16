@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { checkItem, res, ResponseError } from '../utils';
+import { checkItem, getUserEmail, isAdmin, res, ResponseError } from '../utils';
 import { getItemByName, getItemById, updateItem } from "../dbOperations";
 import { EventBridgeClient, PutEventsCommand } from "@aws-sdk/client-eventbridge"
 
@@ -50,6 +50,12 @@ export async function handler(event: APIGatewayProxyEvent, context: Context): Pr
         const id = event.pathParameters?.id;
         const itemExists = await getItemById(id!);
         if (!itemExists) throw new ResponseError(404, 'Item with such id not found');
+
+        const userEmail = getUserEmail(event);
+        const isUserAdmin = isAdmin(event);
+        if (!isUserAdmin) {
+            if (itemExists.createdBy !== userEmail) throw new ResponseError(403, 'You are not allowed to update this item');
+        }
 
         const body = JSON.parse(event.body!);
         checkItem(body);

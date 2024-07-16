@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda'; 
-import { res, ResponseError, checkRequiredKeys } from '../utils';
+import { res, ResponseError, checkRequiredKeys, adminOnly } from '../utils';
 import { CategoriesTableFields } from '../../../../models';
 import { getCategoryByName, saveCategory } from '../dbOperations';
 
@@ -23,6 +23,7 @@ function createCategory(name: string, description: string, image: string) {
 
 export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
+        adminOnly(event);
         const body = JSON.parse(event.body!);
 
         checkRequiredKeys(body, ['name']);
