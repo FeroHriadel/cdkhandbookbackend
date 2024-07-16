@@ -4,8 +4,6 @@ import SignInButton from './SignInButton';
 import UserLink from './UserLink';
 import './Navbar.css';
 import { Home, Tag, LibraryBig, Package } from 'lucide-react';
-import GoBackButton from './GoBackButton';
-import SearchButton from './SearchButton';
 
 
 
@@ -43,9 +41,6 @@ const Navbar = () => {
       </ul>
 
       <SignInButton />
-
-      <GoBackButton className='absolute left-4 -bottom-10 z-10 opacity-75'/>
-      <SearchButton className='absolute right-4 -bottom-10 z-10 opacity-75'/>
     </nav>
   )
 }

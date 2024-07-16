@@ -18,7 +18,7 @@ const GoBackButton = ({ className = '', style }: Props) => {
 
   return (
     <Button
-    variant="outline"
+      variant="outline"
       onClick={() => router.back()}
       className={className}
       style={style}

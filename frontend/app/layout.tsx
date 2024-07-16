@@ -5,6 +5,8 @@ import "./globals.css";
 import { AppProvider } from "@/components/AppProvider";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster"
+import GoBackButton from '@/components/GoBackButton';
+import SearchButton from '@/components/SearchButton';
 
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"] });
@@ -21,7 +23,9 @@ export default function RootLayout({ children}: Readonly<{children: React.ReactN
       <body>
         <AppProvider>
           <Navbar />
-          {children}
+            <GoBackButton className="fixed top-12 left-4 z-10" />
+            <SearchButton className="fixed top-12 left-20 z-10" />
+            {children}
           <Toaster />
         </AppProvider>
       </body>

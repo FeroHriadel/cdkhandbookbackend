@@ -19,9 +19,17 @@ import Container from "@/components/Container";
 import { useAuth } from "@/context/authContext";
 
 
+
+interface Props {
+  redirectUrl?: string;
+}
+
+
 const maxImages = 5;
 
-const AddItemPage = () => {
+
+
+const AddItemPage = ({ redirectUrl = '/admin/items' }: Props) => {
   const [item, setItem] = useState<Item>({name: "", description: "", images: [], tags: [], category: ""});
   const { name, description, images, tags, category } = item;
   const [selectedImages, setSelectedImages] = useState<{ base64: string; fileName: string }[]>([]);
@@ -69,7 +77,7 @@ const AddItemPage = () => {
     toast({ description: "Item added successfully" });
     setItem({ name: "", description: "", images: [], tags: [], category: "" });
     setDisabled(false);
-    router.push('/admin/items');
+    router.push(redirectUrl);
   };
 
   const saveToDB = async (objectUrls: string[]) => {

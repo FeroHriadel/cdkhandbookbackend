@@ -25,6 +25,7 @@ export interface Item {
     id?: string;
     createdAt?: string;
     updatedAt?: string;
+    createdBy?: string;
     type?: '#ITEM';
     namesearch?: string;
     name: string;
