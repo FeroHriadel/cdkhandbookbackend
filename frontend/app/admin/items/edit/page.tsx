@@ -25,9 +25,13 @@ export const dynamic = 'force-dynamic';
 
 
 
+interface Props {
+  rediretTo?: string;
+}
+
 const maxImages = 5;
 
-const EditItemPage = () => {
+const EditItemPage = ({ rediretTo = '/admin/items'}: Props) => {
   const [item, setItem] = useState<Item>({name: "", description: "", images: [], tags: [], category: ""});
   const { name, description, images, tags, category } = item;
   const [disabled, setDisabled] = useState(false);
@@ -95,7 +99,7 @@ const EditItemPage = () => {
     toast({ description: "Item updated successfully" });
     setItem({ name: "", description: "", images: [], tags: [], category: "" });
     setDisabled(false);
-    router.push('/admin/items');
+    router.push(rediretTo);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

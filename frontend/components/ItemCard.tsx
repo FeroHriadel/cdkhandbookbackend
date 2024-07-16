@@ -1,12 +1,12 @@
 import React from 'react';
 import { Item } from '@/models/models';
-import { Card, CardContent, CardFooter } from './ui/card';
-import Image from 'next/image';
+import { Card } from './ui/card';
 import ItemCardCategory from './ItemCardCategory';
 import ItemCardTags from './ItemCardTags';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import CenteredImage from './CenteredImage';
+import ItemCardControlButtons from './ItemCardControlButtons';
 
 
 
@@ -18,18 +18,9 @@ interface Props {
 
 const ItemCard = ({ item }: Props) => {
   const src = item.images ? item.images[0] : '';
-
+  
   return (
-    <Card className='w-[260px] flex flex-col items-center'>
-
-      {/* <div className='w-[90%] h-[250px] bg-slate-100 relative rounded mb-2 mt-4'>
-        {
-          src
-          &&
-          <Image src={src} alt={item.name} fill sizes='33vw' className='rounded' style={{filter: 'grayscale(75%)'}}/>
-        }
-      </div> */}
-
+    <Card className='w-[260px] flex flex-col items-center relative'>
       {
         src
         ?
@@ -58,6 +49,8 @@ const ItemCard = ({ item }: Props) => {
           <Link href={`/items/${item.id}`}>See details</Link>
         </Button>
       </div>
+
+      <ItemCardControlButtons item={item} />
     </Card>
   )
 }

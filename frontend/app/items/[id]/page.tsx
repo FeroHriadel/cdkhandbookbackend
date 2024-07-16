@@ -30,7 +30,7 @@ const ItemPage = async ({ params }: {params: {id: string}}) => {
   return (
     <div className='page-wrapper'>
       <Container className='mt-10'>    
-      <h1>{item.name.toUpperCase()}</h1>
+      <h1 className='text-center'>{item.name.toUpperCase()}</h1>
 
       <ItemCardCategory item={item} className="mb-5" />
 
