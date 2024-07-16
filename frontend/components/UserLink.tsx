@@ -7,10 +7,19 @@ import { useAuth } from '@/context/authContext'
 
 
 
-const AdminLink = () => {
+const UserLink = () => {
   const { user } = useAuth();
 
-  if (!user?.isAdmin) return <></>
+  if (!user.email) return <></>
+
+  if (user && !user?.isAdmin) return (
+    <li>
+      <Link href="/profile" className='text-sm hover:text-slate-500'>
+        <p className='link'>Profile</p>
+        <UserPlus className='icon' size={15} />
+      </Link>
+    </li>
+  )
 
   return (
     <li>
@@ -22,4 +31,4 @@ const AdminLink = () => {
   )
 }
 
-export default AdminLink
+export default UserLink

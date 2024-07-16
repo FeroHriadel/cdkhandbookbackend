@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import SignInButton from './SignInButton';
-import AdminLink from './AdminLink';
+import UserLink from './UserLink';
 import './Navbar.css';
 import { Home, Tag, LibraryBig, Package } from 'lucide-react';
 import GoBackButton from './GoBackButton';
@@ -39,7 +39,7 @@ const Navbar = () => {
             <Package className='icon' size={15}/>
           </Link>
         </li>
-        <AdminLink />
+        <UserLink />
       </ul>
 
       <SignInButton />
