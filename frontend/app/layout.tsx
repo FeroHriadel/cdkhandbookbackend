@@ -12,8 +12,23 @@ import SearchButton from '@/components/SearchButton';
 const poppins = Poppins({ subsets: ["latin"], weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"] });
 
 export const metadata: Metadata = {
-  title: "AWS Handbook Frontend",
-  description: "Frontend for AWS Handbook",
+  title: "ThisSite",
+  description: "Showcase your items",
+  openGraph: {
+    title: "ThisSite",
+    description: "Showcase your items",
+    url: process.env.NEXT_PUBLIC_APP_URL,
+    siteName: "ThisSite",
+    locale: "en_US",
+    type: "website",
+    images: [{url: `${process.env.NEXT_PUBLIC_APP_URL}/images/logo.png`, width: 300, height: 300, alt: 'ThisSite'}]
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_APP_URL
+  }
 };
 
 

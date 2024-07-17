@@ -4,14 +4,47 @@ import ItemCardTags from '@/components/ItemCardTags';
 import ItemCardCategory from '@/components/ItemCardCategory';
 import CenteredImage from '@/components/CenteredImage';
 import './page.css';
+import type { Metadata } from "next";
 
 
 
 export const dynamic = 'force-dynamic';
 
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const { id } = params;
+  const item = await getItemById(id);
+  if (!item.id) return ({title: 'Item not found'});
+  return ({
+    title: `ThisSite | ${item.name}`,
+    description: item.description || "Showcase your items",
+    openGraph: {
+      title: `ThisSite | ${item.name}`,
+      description: item.description || "Showcase your items",
+      url: `${process.env.NEXT_PUBLIC_APP_URL}/items/${id}`,
+      siteName: "ThisSite",
+      locale: "en_US",
+      type: "website",
+      images: [
+        {
+          url: item.images[0] || `${process.env.NEXT_PUBLIC_APP_URL}/images/logo.png`,
+          width: 300,
+          height: 300,
+          alt: 'ThisSite'
+        }
+      ]
+    },
+    icons: {
+      icon: "/favicon.ico",
+    },
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_APP_URL}/items/${id}`
+    }
+  });
+}
 
 
-const getItemById = async (id: string) => {
+
+async function getItemById (id: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API}/items?item=${id}`, {cache: 'no-store'});
   const data = await res.json();
   return data;
@@ -66,4 +99,4 @@ const ItemPage = async ({ params }: {params: {id: string}}) => {
   )
 }
 
-export default ItemPage
+export default ItemPage;

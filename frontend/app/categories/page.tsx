@@ -6,12 +6,32 @@ import Image from 'next/image';
 import CenteredImage from '@/components/CenteredImage';
 import './page.css';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 
 
 export const dynamic = 'force-dynamic';
 
 
+export const metadata: Metadata = {
+  title: "ThisSite | Categories",
+  description: "Showcase your items",
+  openGraph: {
+    title: "ThisSite | Categories",
+    description: "Showcase your items",
+    url: `${process.env.NEXT_PUBLIC_APP_URL}/categories`,
+    siteName: "ThisSite",
+    locale: "en_US",
+    type: "website",
+    images: [{url: `${process.env.NEXT_PUBLIC_APP_URL}/images/logo.png`, width: 300, height: 300, alt: 'ThisSite'}]
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_APP_URL
+  }
+};
 
 const fetchCategories = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API}/categories`, {cache: 'no-store'}); //{cache: 'no-store'} turns off caching in server-rendered components but I think `export const dynamic = 'force-dynamic'` is needed too
@@ -21,7 +41,7 @@ const fetchCategories = async () => {
 
 
 
-const TagsPage = async () => {
+const CategoresPage = async () => {
   const categories = await fetchCategories();
 
   const areCategoriesOk = () => { if (!Array.isArray(categories)) return false; }
@@ -62,4 +82,4 @@ const TagsPage = async () => {
   )
 }
 
-export default TagsPage
+export default CategoresPage

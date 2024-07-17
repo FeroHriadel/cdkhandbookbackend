@@ -2,11 +2,32 @@ import Container from '@/components/Container';
 import React from 'react'
 import { Item } from '@/models/models';
 import ItemCard from '@/components/ItemCard';
+import { Metadata } from 'next';
 
 
 
 export const dynamic = 'force-dynamic';
 
+
+export const metadata: Metadata = {
+  title: "ThisSite | Items",
+  description: "Showcase your items",
+  openGraph: {
+    title: "ThisSite | Items",
+    description: "Showcase your items",
+    url: `${process.env.NEXT_PUBLIC_APP_URL}/items`,
+    siteName: "ThisSite",
+    locale: "en_US",
+    type: "website",
+    images: [{url: `${process.env.NEXT_PUBLIC_APP_URL}/images/logo.png`, width: 300, height: 300, alt: 'ThisSite'}]
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_APP_URL
+  }
+};
 
 const fetchItems = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API}/items`, {cache: 'no-store'}); //{cache: 'no-store'} turns off caching in server-rendered components
@@ -16,7 +37,7 @@ const fetchItems = async () => {
 
 
 
-const TagsPage = async () => {
+const ItemsPage = async () => {
   let items = await fetchItems();
 
   const areItemsOk = () => { if (!Array.isArray(items)) return false; }
@@ -42,4 +63,4 @@ const TagsPage = async () => {
   )
 }
 
-export default TagsPage
+export default ItemsPage

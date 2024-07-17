@@ -2,12 +2,32 @@ import Container from '@/components/Container';
 import React from 'react'
 import { Tag } from '@/models/models';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 
 
 export const dynamic = 'force-dynamic';
 
 
+export const metadata: Metadata = {
+  title: "ThisSite | Tags",
+  description: "Showcase your items",
+  openGraph: {
+    title: "ThisSite | Tags",
+    description: "Showcase your items",
+    url: `${process.env.NEXT_PUBLIC_APP_URL}/tags`,
+    siteName: "ThisSite",
+    locale: "en_US",
+    type: "website",
+    images: [{url: `${process.env.NEXT_PUBLIC_APP_URL}/images/logo.png`, width: 300, height: 300, alt: 'ThisSite'}]
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_APP_URL
+  }
+};
 
 const fetchTags = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API}/tags`, {cache: 'no-store'}); //{cache: 'no-store'} turns off caching in server-rendered components
