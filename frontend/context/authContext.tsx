@@ -1,8 +1,8 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { User } from '@/models/models';
-import { cognitoSignout, getCognitoSession } from '@/utils/cognito';
+import { cognitoSignout, getCognitoSession, refreshCognitoSession } from '@/utils/cognito';
 
 
 
@@ -24,6 +24,8 @@ interface AuthContextProviderProps {
 
 const defaultUser: User = {email: '', expires: 0, isAdmin: false, idToken: ''};
 
+const oneHour = 1000 * 60 * 60;
+
 const AuthContext = createContext<AuthContextState>({
     user: {...defaultUser},
     setUser: (user: User) => {},
@@ -37,6 +39,7 @@ const AuthContext = createContext<AuthContextState>({
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }: {children: React.ReactNode}) => {
   const [user, setUser] = useState<User>({...defaultUser});
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const refreshTokenInterval = useRef<NodeJS.Timeout | null>(null);
 
 
   const logout = async () => {
@@ -66,23 +69,47 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
     return {email, isAdmin, expires, idToken};
   }
 
+  const getUserFromRefreshedSession = (refreshedSession: any) => { //bc why would aws ever send some data consistently or conveniently...
+    const email = refreshedSession.tokens?.idToken?.payload?.email;
+    const groups = refreshedSession.tokens?.idToken?.payload['cognito:groups'];
+    const isAdmin = Array.isArray(groups) ? groups.includes('admin') : false;
+    const expires = refreshedSession.tokens?.idToken?.payload.exp;
+    const idToken = refreshedSession.tokens?.idToken?.toString();
+    return {email, isAdmin, expires, idToken};
+  }
+
+  const refreshSession = async () => {
+    const newSession = await refreshCognitoSession(); if (!newSession.tokens) await logout();
+    const newUserData = getUserFromRefreshedSession(newSession);
+    setUser({...newUserData});
+  }
+
+  const isSessionValid = (session: any) => {
+    const user = getUserFromSession(session); 
+    const now = getCurrentDate();
+    if (user.expires < now) return false;
+    return true;
+  }
+
   const populateUser = async () => {
     setCheckingAuth(true);
-    const session = await getCognitoSession();
-    if (!session.idToken) { await logout(), setCheckingAuth(false) }
-    else {
-      const user = getUserFromSession(session);
-      const now = getCurrentDate();
-      if (user.expires < now) await logout()
-      else setUser({...user});
-      setCheckingAuth(false);
-    }
+    const session = await getCognitoSession();  if (!session.idToken) { await logout(); setCheckingAuth(false); return }
+    if (!isSessionValid(session)) await logout()
+    else await refreshSession();
+    setCheckingAuth(false);
+  }
+
+  const handleRefreshInterval = (user: User) => {
+    if (refreshTokenInterval.current) clearInterval(refreshTokenInterval.current);
+    if (user.email) refreshTokenInterval.current = setInterval(() => { refreshSession() }, oneHour);
   }
 
 
-  useEffect(() => { populateUser(); }, []);
+  useEffect(() => { populateUser(); }, []); //populates user on app refresh on first load if still signed-in
 
-  useEffect(() => { console.log(user); console.log(`Token expires: ${getDateFromSeconds(user.expires)}`) }, [user]);
+  useEffect(() => { handleRefreshInterval(user); }, [user]); //refreshes token every hour
+
+  useEffect(() => { console.log(user); console.log(`Token expires: ${getDateFromSeconds(user.expires)}`) }, [user]); //logs user on every change
 
 
   return (
