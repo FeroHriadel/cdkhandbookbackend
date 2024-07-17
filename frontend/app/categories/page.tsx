@@ -43,7 +43,7 @@ const TagsPage = async () => {
             {
               category.image
               ?
-              <CenteredImage src={category.image || ''} width={400} height={400} className='min-w-[400px] category-section-image' />
+              <CenteredImage src={category.image || ''} width={400} height={400} className='min-w-[400px] category-section-image' style={{filter: 'grayscale(75%)'}} />
               :
               <div className='w-[400px] min-w-[400px] h-[400px] bg-slate-100 category-section-image' />
             }

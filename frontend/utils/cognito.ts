@@ -3,7 +3,7 @@
 
 import { Amplify } from "aws-amplify";
 import { amplifyConfig } from "@/amplifyConfig";
-import { signUp, confirmSignUp, signIn, signOut, fetchAuthSession } from "aws-amplify/auth";
+import { signUp, confirmSignUp, signIn, signOut, fetchAuthSession, resetPassword, type ResetPasswordOutput, confirmResetPassword } from "aws-amplify/auth";
 
 
 
@@ -77,6 +77,28 @@ export const refreshCognitoSession = async () => {
   } catch (error) {
     console.log(error);
     let er = JSON.parse(JSON.stringify(error)).name || 'Refreshing session failed';
+    return {error: er};
+  }
+}
+
+export const handleResetPassword = async(email: string) => {
+  try {
+    const output = await resetPassword({ username: email });
+    return output;
+  } catch (error) {
+    console.log(error);
+    let er = JSON.parse(JSON.stringify(error)).name || 'Resetting password failed';
+    return {error: er};
+  }
+}
+
+export const handleConfirmResetPassword = async (props: {email: string, confirmationCode: string, newPassword: string}) => {
+  try {
+    const { email, confirmationCode, newPassword } = props;
+    await confirmResetPassword({ username: email, confirmationCode: confirmationCode, newPassword: newPassword});
+    return {ok: true}
+  } catch (error) {
+    let er = JSON.parse(JSON.stringify(error)).name || 'Resetting password failed';
     return {error: er};
   }
 }
