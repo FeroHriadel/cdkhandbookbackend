@@ -10,9 +10,8 @@ A handbook to aws serverless stack. <br />
 - Cognito Authorizer
 - AWS Policies and Tags
 - EventBus (lambda to lambda)
-- Next.js frontend
-
-should add more features in the near future <br />
+- nextjs frontend is in a separate repo, will place a link here (unless I forget): `TO DO - add frontend link !!!!!!!!!!!!!!!!!!!!`
+<br />
 
 
 
@@ -34,11 +33,11 @@ should add more features in the near future <br />
 ACCOUNT_ID=582602607164 <br />
 REGION=us-east-1 <br />
 APP_NAME=AwsHandbook <br />
-USERPOOL_ID=us-east-1_CDhcQ9pou
-USERPOOL_CLIENT_ID=7o397d7j6tvtrbt999g9mgro8a
 <br />
 
-
+<sub>DEPLOY:</sub>
+- `$ cdk deploy --profile ferohriadeladmin`
+- once deployment is done it should print api endpoint, cognito userpool id, cognito userpool client id... in the terminal. FE will need those.
 
 
 
