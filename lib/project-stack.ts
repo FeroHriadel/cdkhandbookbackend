@@ -106,4 +106,5 @@ export class AwsHandbookStack extends cdk.Stack {
   private attachLambdasToApi() {
     attachLambdasToApi({api: this.api, lambdas: this.lambdas, authorizer: this.authorizer});
   }
+
 }
