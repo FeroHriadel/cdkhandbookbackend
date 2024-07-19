@@ -10,7 +10,7 @@ A handbook to aws serverless stack. <br />
 - Cognito Authorizer
 - AWS Policies and Tags
 - EventBus (lambda to lambda)
-- nextjs frontend is in a separate repo, will place a link here (unless I forget): `TO DO - add frontend link !!!!!!!!!!!!!!!!!!!!`
+- nextjs frontend is in a separate repo: `https://github.com/FeroHriadel/cdkhandbookfrontend`
 <br />
 
 
@@ -28,11 +28,13 @@ A handbook to aws serverless stack. <br />
 
 <sub>ENVIRONMENT VARIABLES:</sub>
 - in the root of the project create a file called: .env
-- put in your data:
+- put in your data: <br />
 
-ACCOUNT_ID=582602607164 <br />
-REGION=us-east-1 <br />
-APP_NAME=AwsHandbook <br />
+```
+ACCOUNT_ID=582602607164
+REGION=us-east-1
+APP_NAME=AwsHandbook
+```
 <br />
 
 <sub>DEPLOY:</sub>
