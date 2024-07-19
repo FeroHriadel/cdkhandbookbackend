@@ -25,7 +25,7 @@ new PipelineStack(app, 'AwsHandbookPipelineStack', {
     stackName: `${process.env.APP_NAME}-w-Pipeline`
 });
 
-
+app.synth();
 
 //TIP: you can deploy more stacks like this:
 // - create /lib/some-other-stack.ts and put in this code:
