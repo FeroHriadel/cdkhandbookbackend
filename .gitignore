@@ -8,7 +8,7 @@ node_modules
 cdk.out
 
 # env
-
+.env
 
 # next.js dependencies
 frontend/node_modules
