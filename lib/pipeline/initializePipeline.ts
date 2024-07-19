@@ -13,7 +13,8 @@ export function initializePipeline(scope: Construct, props: {branch: string}) {
   const pipeline = new CodePipeline(scope, 'CdkHandbookPipeline', {
     pipelineName: 'CdkHandbookPipeline',
     synth: new ShellStep('Synth', {
-      input: CodePipelineSource.gitHub(repo, props.branch),
+      //input: CodePipelineSource.gitHub(repo, props.branch),
+      input: CodePipelineSource.gitHub('FeroHriadel/cdkhandbookbackend', props.branch),
       commands: [
         'npm ci',
         'npx cdk synth'
