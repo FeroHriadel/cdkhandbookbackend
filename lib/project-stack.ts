@@ -18,10 +18,10 @@ import { initializePipeline } from './pipeline/initializePipeline';
 
 export class AwsHandbookStack extends cdk.Stack {
   //eventBus details:
-  readonly deleteImagesBusSource = ['delete.images.bus.source'];
-  readonly deleteImagesBusDetailType = ['DeleteImagesDetailType'];
-  readonly deleteImagesEventBusName = 'DeleteImagesBus';
-  readonly deleteImagesEventBusRuleName = 'DeleteImagesBusRule';
+  private deleteImagesBusSource: string[];
+  private deleteImagesBusDetailType: string[];
+  private deleteImagesEventBusName: string;
+  private deleteImagesEventBusRuleName: string;
 
   //tags:
   readonly bucketAccessTag = 's3access';
@@ -39,10 +39,18 @@ export class AwsHandbookStack extends cdk.Stack {
   //constructor:
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+    this.initEventBusDetails();
     this.initAppResources();
   }
 
   //methods:
+  private initEventBusDetails() {
+    this.deleteImagesBusSource = [this.stackName + 'delete.images.bus.source'];
+    this.deleteImagesBusDetailType = [this.stackName + 'DeleteImagesDetailType'];
+    this.deleteImagesEventBusName = this.stackName + 'DeleteImagesBus';
+    this.deleteImagesEventBusRuleName = this.stackName + 'DeleteImagesBusRule';
+  }
+
   private initAppResources() {
     this.initAppTables();
     this.initAppBuckets();
@@ -114,6 +122,6 @@ export class AwsHandbookStack extends cdk.Stack {
   private initPipeline() {
     //only create pipeline for `dev` and `prod` stages:
     if (this.stackName.startsWith('dev')) this.pipeline = initializePipeline(this, {branch: 'dev'});
-    if (this.stackName.startsWith('prod')) this.pipeline = initializePipeline(this, {branch: 'prod'});
+    if (this.stackName.startsWith('prod')) this.pipeline = initializePipeline(this, {branch: 'main'});
   }
 }
