@@ -8,25 +8,4 @@ node_modules
 cdk.out
 
 # env
-.env
-
-# next.js dependencies
-frontend/node_modules
-
-# next.js caching
-frontend/.next/
-frontend/out/
-
-# next.js production
-frontend/build
-
-# local env files
-frontend/.env*.local
-frontend/.env
-
-# vercel
-frontend/.vercel
-
-# typescript
-frontend/*.tsbuildinfo
-frontend/next-env.d.ts
+# .env
