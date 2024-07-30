@@ -30,7 +30,7 @@ export class ImagesBucket {
 
     private createBucket() {
         this.bucket = new Bucket(this.stack, 'cdk-handbook-images-bucket', {
-            bucketName: 'cdk-handbook-images-bucket-30krk3o',
+            bucketName: process.env.APP_NAME + 'cdk-handbook-images-bucket-30krk3o',
             objectOwnership: ObjectOwnership.BUCKET_OWNER_PREFERRED, //enables ACLs (else image upload from website fails)
             blockPublicAccess: {blockPublicAcls: false, ignorePublicAcls: false, blockPublicPolicy: false, restrictPublicBuckets: false}, //enables adding bucket policy from cdk - cdk can't deploy bucket w/o this
             cors: [{ //open bucket to the internet

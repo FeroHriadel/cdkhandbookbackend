@@ -11,6 +11,8 @@ import { DeleteImagesEventBus } from './eventBuses/DeleteImagesEventBus';
 import { Authorizer } from './authorizer/Authorizer';
 import { CognitoUserPoolsAuthorizer, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { attachLambdasToApi } from './lambdas/attachLambdasToApi';
+import { CodePipeline } from 'aws-cdk-lib/pipelines';
+import { initializePipeline } from './pipeline/initializePipeline';
 
 
 
@@ -32,6 +34,7 @@ export class AwsHandbookStack extends cdk.Stack {
   private buses: {[key: string]: EventBus} = {};
   private api: RestApi;
   private authorizer: CognitoUserPoolsAuthorizer;
+  private pipeline: CodePipeline;
 
   //constructor:
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -48,7 +51,8 @@ export class AwsHandbookStack extends cdk.Stack {
     this.initAppBuses();
     this.initAppApiGateway();
     this.initAppAuthorizer();
-    this.attachLambdasToApi()
+    this.attachLambdasToApi();
+    this.initPipeline();
   }
 
   private initAppTables() {
@@ -106,5 +110,10 @@ export class AwsHandbookStack extends cdk.Stack {
   private attachLambdasToApi() {
     attachLambdasToApi({api: this.api, lambdas: this.lambdas, authorizer: this.authorizer});
   }
-
+  
+  private initPipeline() {
+    //only create pipeline for `dev` and `prod` stages:
+    if (this.stackName.startsWith('dev')) this.pipeline = initializePipeline(this, {branch: 'dev'});
+    if (this.stackName.startsWith('prod')) this.pipeline = initializePipeline(this, {branch: 'prod'});
+  }
 }

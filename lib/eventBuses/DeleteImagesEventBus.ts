@@ -49,7 +49,7 @@ export class DeleteImagesEventBus {
     }
 
     private createBus() {
-        this.bus = new EventBus(this.stack, this.busName, {eventBusName: this.busName});
+        this.bus = new EventBus(this.stack, this.stack.stackName + this.busName, {eventBusName: this.stack.stackName + this.busName});
     }
 
     private createBusRule() {

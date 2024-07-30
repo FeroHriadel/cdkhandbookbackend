@@ -30,8 +30,8 @@ export class ItemsTable {
     }
 
     private createTable() {
-        this.table = new Table(this.stack, 'ItemsTable', {
-            tableName: 'ItemsTable',
+        this.table = new Table(this.stack, this.stack.stackName + 'ItemsTable', {
+            tableName: this.stack.stackName + 'ItemsTable',
             partitionKey: {name: 'id', type: AttributeType.STRING},
             removalPolicy: cdk.RemovalPolicy.DESTROY,
             billingMode: BillingMode.PAY_PER_REQUEST

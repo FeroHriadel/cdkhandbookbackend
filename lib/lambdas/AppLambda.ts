@@ -65,10 +65,10 @@ export class AppLambda {
   }
 
   private createLambda = () => {
-    this.lambda = new NodejsFunction(this.stack, this.lambdaName, {
+    this.lambda = new NodejsFunction(this.stack, this.stack.stackName + this.lambdaName, {
       entry: (join(__dirname, 'handlers', this.folder, `${this.lambdaName}.ts`)),
       handler: 'handler',
-      functionName: this.lambdaName,
+      functionName: this.stack.stackName + this.lambdaName,
       environment: {
         REGION: process.env.REGION || 'region not defined!',
         TABLE_NAME: this.table?.tableName || 'no table defined!',
