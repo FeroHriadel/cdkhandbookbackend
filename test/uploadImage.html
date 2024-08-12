@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<br>
+    
+    <small>1. Choose an image:</small>
+    <br />
+    <input 
+        name="image-input"
+        id="image-input"
+        type="file"
+        max="1"
+        accept="image/*"
+    />
+    </br /></br /></br />
+
+    <small>2. Paste your presigned url here and press enter:</small>
+    <input 
+        name="url-input"
+        id="url-input"
+        type="text"
+        placeholder="enter presigned url here"
+    />
+    </br /></br /></br />
+
+    <small>3. Push this button to upload img to s3</small>
+    <button id="upload-img-btn">Upload the Image</button>
+
+    <p id="message"></p>
+
+    
+</body>
+<script>
+    //elements:
+    let messageEl = document.getElementById('message');
+    let imageInputEl = document.getElementById('image-input');
+    let urlInputEl = document.getElementById('url-input');
+    let uploadBtn = document.getElementById('upload-img-btn');
+
+    //values:
+    let imageData = {fileName: '', imageFile: null};
+    let presignedUrl;
+
+    //subscriptions:
+    imageInputEl.addEventListener('change', onImageUpload);
+    urlInputEl.addEventListener('change', setPresignedUrl);
+    uploadBtn.addEventListener('click', pushToS3);
+    
+    //functions:
+    function onImageUpload(e) {
+        let file = e.target.files[0] || null;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                console.log('reader result: ', reader.result); //can be used to preview img on FE.
+                imageData.fileName = file.name;
+                imageData.imageFile = e.target.result;
+                setMessage(`Got file ${file.name}`);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setMessage('No file detected');
+        }
+    }
+
+    function setMessage(txt) {
+        messageEl.innerText = txt;
+    }
+
+    function setPresignedUrl(e) {
+        presignedUrl = e.target.value;
+        if (presignedUrl) setMessage(`Got presigned url: ${presignedUrl}`)
+        else setMessage(`Got no presigned url`);
+    }
+
+    function pushToS3() {
+        try {
+            //remove search (query) from signed url:
+            setMessage('getting objectUrl from link...');
+            let url = presignedUrl;
+            let objectUrl = url.split('?')[0]; //aws link where image will be. AWS calls it objectUrl hence the name
+
+            //do some file-to-base64 magic to get blobData
+            setMessage('converting image...');
+            let binary = atob(imageData.imageFile.split(',')[1]); //removes the image/png from image file
+            let array = [];
+            for (var i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i)) //pushes imageFile characters into the array
+            }
+            let blobData = new Blob([new Uint8Array(array)], {type: 'image/png'});
+
+            //push blobData to presigned link
+            setMessage('pushing data to s3...');
+            return fetch(url, {method: 'PUT', body: blobData}).then(res => {
+                if (!res.ok) return setMessage('Saving image failed :(');
+                return setMessage(`The image should now be at ${objectUrl}`)
+            })
+        } catch (error) {
+            console.log(error);
+            setMessage(error.error || 'Something went wrong')
+        }
+    }
+</script>
+</html>
